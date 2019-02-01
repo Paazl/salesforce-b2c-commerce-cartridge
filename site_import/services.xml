@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://www.demandware.com/xml/impex/services/2014-09-26">
+    <service-credential service-credential-id="credentials.paazl.rest.checkout">
+        <url>https://api-acc.paazl.com/v1/checkout</url>
+        <user-id/>
+        <password encrypted="true" encryption-type="common.export"/>
+    </service-credential>
+
+    <service-credential service-credential-id="credentials.paazl.rest.token">
+        <url>https://api-acc.paazl.com/v1/checkout/token</url>
+        <user-id/>
+        <password encrypted="true" encryption-type="common.export"/>
+    </service-credential>
+
+    <service-credential service-credential-id="credentials.paazl.soap">
+        <url>https://staging.paazl.com/parcelshipperservice/services</url>
+        <user-id></user-id>
+        <password></password>
+    </service-credential>
+
+    <service-profile service-profile-id="profile.paazl">
+        <timeout-millis>2000</timeout-millis>
+        <rate-limit-enabled>false</rate-limit-enabled>
+        <rate-limit-calls>0</rate-limit-calls>
+        <rate-limit-millis>0</rate-limit-millis>
+        <cb-enabled>false</cb-enabled>
+        <cb-calls>0</cb-calls>
+        <cb-millis>0</cb-millis>
+    </service-profile>
+
+    <service service-id="service.paazl.rest.getSelectedOption">
+        <service-type>HTTP</service-type>
+        <enabled>true</enabled>
+        <log-prefix>paazlAPI</log-prefix>
+        <comm-log-enabled>true</comm-log-enabled>
+        <force-prd-enabled>false</force-prd-enabled>
+        <mock-mode-enabled>false</mock-mode-enabled>
+        <profile-id>profile.paazl</profile-id>
+        <credential-id>credentials.paazl.rest.checkout</credential-id>
+    </service>
+
+    <service service-id="service.paazl.rest.gettoken">
+        <service-type>HTTP</service-type>
+        <enabled>true</enabled>
+        <log-prefix>paazlAPI</log-prefix>
+        <comm-log-enabled>true</comm-log-enabled>
+        <force-prd-enabled>false</force-prd-enabled>
+        <mock-mode-enabled>false</mock-mode-enabled>
+        <profile-id>profile.paazl</profile-id>
+        <credential-id>credentials.paazl.rest.token</credential-id>
+    </service>
+
+    <service service-id="service.paazl.orderrequest.address">
+        <service-type>SOAP</service-type>
+        <enabled>true</enabled>
+        <log-prefix>paazlAPI</log-prefix>
+        <comm-log-enabled>true</comm-log-enabled>
+        <force-prd-enabled>true</force-prd-enabled>
+        <mock-mode-enabled>false</mock-mode-enabled>
+        <profile-id>profile.paazl</profile-id>
+        <credential-id>credentials.paazl.soap</credential-id>
+    </service>
+
+</services>
