@@ -276,7 +276,7 @@
         var viewContext = require('app_storefront_core/cartridge/scripts/common/extend').immutable(context, params);
         app.getView(viewContext).render('checkout/summary/summary');</pre> 
  </div>
-</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p>Open calculate.js, go to 'Start' function &amp;  modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p>Open calculate.js, and replace the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">calculate existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
@@ -293,10 +293,15 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">    var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
-    paazlHelper.calculateShipping(basket);</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">    ShippingMgr.applyShippingCost(basket);
+    var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+    paazlStatus = paazlHelper.getPaazlStatus(basket.defaultShipment);
+    // If Paazl active, apply Paazl shipping cost to the current basket
+    if (paazlStatus.active) {
+        paazlHelper.calculateShipping(basket);
+    }</pre> 
  </div>
-</div><p><br/></p><p>Open minisummary.isml, <span style="color: rgb(9,30,66);">and modify the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p>Open minisummary.isml, <span style="color: rgb(9,30,66);">and replace the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">minisummary existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
