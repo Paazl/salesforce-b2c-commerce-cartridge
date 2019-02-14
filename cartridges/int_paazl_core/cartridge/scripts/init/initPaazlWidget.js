@@ -60,11 +60,11 @@ function initPaazlWidget() {
         postalCode = request.geolocation.postalCode;// eslint-disable-line no-undef
     }
 
-    if (shippingAddress && shippingAddress.countryCode) {
+    if (shippingAddress && shippingAddress.countryCode && !empty(shippingAddress.countryCode.value)) {
         countryCode = shippingAddress.countryCode.value;
     } else if (request.geolocation && request.geolocation.countryCode) { // eslint-disable-line no-undef
         countryCode = request.geolocation.countryCode;// eslint-disable-line no-undef
-    } else if (billingAddress && billingAddress.countryCode) {
+    } else if (billingAddress && billingAddress.countryCode && !empty(billingAddress.countryCode.value)) {
         countryCode = billingAddress.countryCode.value;
     } else if (currentLocale && currentLocale.country) {
         countryCode = currentLocale.country;
