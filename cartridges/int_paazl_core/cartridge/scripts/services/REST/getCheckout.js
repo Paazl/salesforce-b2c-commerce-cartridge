@@ -36,6 +36,7 @@ function getCheckoutService() {
             svc.addHeader('Authorization', bearer);
             svc.setRequestMethod('GET');
 
+            //svc.addParam('reference', params.orderReference);
             svc.addParam('reference', params.orderReference);
         }
 
@@ -48,11 +49,18 @@ function getCheckoutService() {
          */
         function parseResponse(svc, response) {
             var selectedOptionResponse = {};
+            selectedOptionResponse.success = true;
             if (response.statusCode === 200 && response.statusMessage === 'OK') {
                 var selectedOption = JSON.parse(response.text);
                 if (selectedOption) {
                     selectedOptionResponse.ID = paazlHelper.getShippingMethodID();
-                    selectedOptionResponse.deliveryType = selectedOption.deliveryType;
+                    if (selectedOption.deliveryType) {
+                        selectedOptionResponse.deliveryType = selectedOption.deliveryType;
+                    } else {
+                        selectedOptionResponse.noDeliveryTypeInfo = true;
+                        Logger.error('REST API Checkout - No deliveryType info return from Paazl.');
+                        return selectedOptionResponse;
+                    }
                     var shippingOption = selectedOption.shippingOption;
                     if (shippingOption) {
                         selectedOptionResponse.carrierName = (shippingOption.carrier && shippingOption.carrier.name) || '';
@@ -61,8 +69,11 @@ function getCheckoutService() {
                         selectedOptionResponse.identifier = shippingOption.identifier || '';
                         selectedOptionResponse.name = shippingOption.name || '';
                         selectedOptionResponse.deliveryDates = shippingOption.deliveryDates || {};
+                    } else {
+                        selectedOptionResponse.noSippingOptionObj = true;
+                        Logger.error('REST API Checkout - No shippingOption Object return from Paazl.');
+                        return selectedOptionResponse;
                     }
-
                     if (selectedOption.deliveryType && selectedOption.deliveryType === 'PICKUP_LOCATION') {
                         var pickupLocation = selectedOption.pickupLocation;
                         if (pickupLocation) {
@@ -83,6 +94,10 @@ function getCheckoutService() {
                                 };
                             }
                             selectedOptionResponse.pickupLocation.address = shippingAddress;
+                        } else {
+                            selectedOptionResponse.noPickupLocationObj = true;
+                            Logger.error('REST API Checkout - No pickupLocation Object return from Paazl.');
+                            return selectedOptionResponse;
                         }
                     }
                     Logger.info('REST API Checkout - selected shipping option successfully requested from Paazl.');
@@ -102,7 +117,6 @@ function getCheckoutService() {
         };
     }
 
-
     /**
      * Call checkout Paazl REST API service
      *
@@ -110,7 +124,7 @@ function getCheckoutService() {
      * @returns{dw.svc.Result} Service Result
      */
     function getSelectedOption(params) {
-        var output = {};
+        var output = {success: false};
         try {
             var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
             var serviceID = 'service.paazl.rest.getSelectedOption';
@@ -120,10 +134,8 @@ function getCheckoutService() {
             if (result.ok) {
                 output = result.object;
             } else {
-                output.success = false;
-                var errorMessages = JSON.parse(result.errorMessage);
-                if (errorMessages && errorMessages.errors && errorMessages.errors.length > 0) {
-                    var errorMessage = errorMessages[0];
+                var errorMessage = result.errorMessage;
+                if (errorMessage) {
                     Logger.error('Error requesting selected shipping option from Paazl. Error message: {0}.', errorMessage || '');
                 } else {
                     Logger.error('Error requesting selected shipping option from Paazl.');

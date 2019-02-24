@@ -10,22 +10,26 @@ server.append(
     'SubmitShipping', function (req, res, next) {
         var BasketMgr = require('dw/order/BasketMgr');
         var Transaction = require('dw/system/Transaction');
-        var viewData = res.getViewData();
-        var currentBasket = BasketMgr.getCurrentBasket();
 
+        var viewData = res.getViewData();
+        if (viewData.error) { return next(); }
+
+        var currentBasket = BasketMgr.getCurrentBasket();
         if (!currentBasket) { return next(); }
 
         // Check if Paazl is enable and selected as shipping method
         var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+        paazlHelper.resetSelectedShippingOption(currentBasket);
         var paazlStatus = paazlHelper.getPaazlStatus(currentBasket.defaultShipment);
         viewData.paazlStatus = paazlStatus;
         if (paazlStatus.active) {
             // If Paazl is active, retrieve the selected shipping option from Paazl
-            var paazlShippingMethod = {};
-            Transaction.wrap(function () {
-                paazlShippingMethod = paazlHelper.getSelectedShippingOption(currentBasket);
-            });
-            viewData.paazlShippingMethod = paazlShippingMethod;
+            var paazlShippingMethod = paazlHelper.getSelectedShippingOption(currentBasket);
+            if (paazlShippingMethod) {
+                viewData.paazlShippingMethod = paazlShippingMethod;
+            } else {
+                viewData.error = true;
+            } 
         }
 
         res.setViewData(viewData);

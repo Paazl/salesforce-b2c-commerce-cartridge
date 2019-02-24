@@ -12,7 +12,7 @@ It is mandatory that the merchant has to created an account with Paazl and confi
 
 ## Installation, Usage and Configuration
 
-Installation, Usage and Configuration are explained in the documentation provided with this cartridge. Go to the documentation folder and open Documentation.html.
+Installation, Usage and Configuration are explained in the documentation provided with this cartridge. To read the documentation, download the repository in your local machine, then go to the documentation folder and open Documentation.html in your browser.
 
 ## Support
   

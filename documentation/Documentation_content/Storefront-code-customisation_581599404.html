@@ -46,7 +46,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">	// line # 348
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> // line # 348
     app.getView({
         Basket: cart.object,
         ApplicableShippingMethods: applicableShippingMethods,
@@ -100,15 +100,15 @@
         isPaazlUniqueShippingOption: isPaazlUniqueShippingOption // paazl view-data variables
     }).render(template);</pre> 
  </div>
-</div><p><br/></p><p>Open COShipping.js, go to 'handleShippingSettings' function &amp;  modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p>Open COShipping.js, go to 'singleShipping' function &amp;  modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">COShipping existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		// line # 143
-        cart.updateShipmentShippingMethod(cart.getDefaultShipment().getID(), session.forms.singleshipping.shippingAddress.shippingMethodID.value, null, null);</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   // line # 222
+        handleShippingSettings(cart)</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -117,14 +117,64 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">        // paazl related changes
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">         if (!handleShippingSettings(cart)) {
+             // If selected shipping method is Paazl but no Paazl shipping option are available or selected stay on the Shipping page
+             app.getController('COShipping').Start();
+             return;
+         }</pre> 
+ </div>
+</div><p><br/></p><p>Open COShipping.js, go to 'handleShippingSettings' function line 125 &amp;  and replace the entire function with the one below</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">COShipping existing</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">/**
+ * Handles the selected shipping address and shipping method. Copies the
+ * address details and gift options to the basket's default shipment. Sets the
+ * selected shipping method to the default shipment.
+ *
+ * @transactional
+ * @param {module:models/CartModel~CartModel} cart - A CartModel wrapping the current Basket.
+ * @returns {boolean} return status
+ */
+function handleShippingSettings(cart) {
+    var result = true;
+    Transaction.wrap(function () {
+        var defaultShipment, shippingAddress;
+        defaultShipment = cart.getDefaultShipment();
+        shippingAddress = cart.createShipmentShippingAddress(defaultShipment.getID());
+
+        shippingAddress.setFirstName(session.forms.singleshipping.shippingAddress.addressFields.firstName.value);
+        shippingAddress.setLastName(session.forms.singleshipping.shippingAddress.addressFields.lastName.value);
+        shippingAddress.setAddress1(session.forms.singleshipping.shippingAddress.addressFields.address1.value);
+        shippingAddress.setAddress2(session.forms.singleshipping.shippingAddress.addressFields.address2.value);
+        shippingAddress.setCity(session.forms.singleshipping.shippingAddress.addressFields.city.value);
+        shippingAddress.setPostalCode(session.forms.singleshipping.shippingAddress.addressFields.postal.value);
+        shippingAddress.setStateCode(session.forms.singleshipping.shippingAddress.addressFields.states.state.value);
+        shippingAddress.setCountryCode(session.forms.singleshipping.shippingAddress.addressFields.country.value);
+        shippingAddress.setPhone(session.forms.singleshipping.shippingAddress.addressFields.phone.value);
+        defaultShipment.setGift(session.forms.singleshipping.shippingAddress.isGift.value);
+        defaultShipment.setGiftMessage(session.forms.singleshipping.shippingAddress.giftMessage.value);
+
         var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+        paazlHelper.resetSelectedShippingOption(cart.object);
         var paazlStatus = paazlHelper.getPaazlStatus(cart.object &amp;&amp; cart.object.defaultShipment);
         if (paazlStatus.active) {
-            paazlHelper.getSelectedShippingOption(cart.object);
+            var paazlShippingOption = paazlHelper.getSelectedShippingOption(cart.object);
+            if (!paazlShippingOption){
+                result = false;
+            }
         } else {
             cart.updateShipmentShippingMethod(cart.getDefaultShipment().getID(), session.forms.singleshipping.shippingAddress.shippingMethodID.value, null, null);
-        }</pre> 
+        }
+        cart.calculate();
+
+        cart.validateForCheckout();
+    });
+    return result;
+}</pre> 
  </div>
 </div><p><br/></p><p>Open COShipping.js, go to 'Start' function &amp;  modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -133,7 +183,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		// line # 109
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   // line # 109
         app.getView({
             ContinueURL: URLUtils.https('COShipping-SingleShipping'),
             Basket: cart.object,
@@ -174,7 +224,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		// line # 191
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   // line # 191
         start(cart, {ApplicableCreditCards: creditCardList.ApplicableCreditCards});</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
@@ -203,7 +253,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">	// line # 97
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> // line # 97
     app.getView({
         Order: order,
         ContinueURL: URLUtils.https('Account-RegistrationForm') // needed by registration form after anonymous checkouts
@@ -232,6 +282,7 @@
         // Add paazl select shipping option info to the data model
         var paazlShippingModel = paazlHelper.getPaazlShippingModel(order);
         params.paazlShipment = paazlShippingModel;
+        params.paazlStatus = paazlStatus;
     }
 
     app.getView(params).render('checkout/confirmation/confirmation');</pre> 
@@ -243,7 +294,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		// line # 48
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   // line # 48
         var pageMeta = require('~/cartridge/scripts/meta');
         var viewContext = require('app_storefront_core/cartridge/scripts/common/extend').immutable(context, {
             Basket: cart.object
@@ -276,14 +327,14 @@
         var viewContext = require('app_storefront_core/cartridge/scripts/common/extend').immutable(context, params);
         app.getView(viewContext).render('checkout/summary/summary');</pre> 
  </div>
-</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p>Open calculate.js, and replace the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p><span class="inline-comment-marker" data-ref="d0390d8e-aed0-4feb-b648-cdafdcf8ba0f">Open calculate.js, and replace the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">calculate existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">	// line # 62
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> // line # 62
     ShippingMgr.applyShippingCost(basket);</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
@@ -308,7 +359,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		// line # 48
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   // line # 48
         &lt;isinclude template=&quot;checkout/shipping/minishipments&quot;/&gt;</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
@@ -318,12 +369,12 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">		&lt;iscomment&gt;If paazl enabled and selected , use the template paazl_minishipments to render the shipment summary&lt;/iscomment&gt;
-		&lt;isif condition=&quot;${pdict.paazlStatus.active}&quot; &gt;
-			&lt;isinclude template=&quot;checkout/shipping/paazl_minishipments&quot; /&gt;
-		&lt;iselse/&gt;
-			&lt;isinclude template=&quot;checkout/shipping/minishipments&quot;/&gt;
-		&lt;/isif&gt;</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">   &lt;iscomment&gt;If paazl enabled and selected , use the template paazl_minishipments to render the shipment summary&lt;/iscomment&gt;
+    &lt;isif condition=&quot;${pdict.paazlStatus &amp;&amp; pdict.paazlStatus.active}&quot; &gt;
+      &lt;isinclude template=&quot;checkout/shipping/paazl_minishipments&quot; /&gt;
+    &lt;iselse/&gt;
+      &lt;isinclude template=&quot;checkout/shipping/minishipments&quot;/&gt;
+    &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open pt_checkout.isml &amp; add the following changes in &lt;head&gt;&lt;/head&gt; section of the template</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -332,9 +383,9 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">	&lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled') &amp;&amp; dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot; &gt;
-		&lt;script type=&quot;text/javascript&quot; src=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot;&gt;&lt;/script&gt;
-	&lt;/isif&gt;</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> &lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled') &amp;&amp; dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot; &gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot;&gt;&lt;/script&gt;
+  &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open pt_checkout.isml, in the &lt;body&gt;&lt;/body&gt; section replace the &lt;div id=&quot;primary&quot; class=&quot;primary-content&quot;&gt; line just above &lt;isreplace/&gt; tag with this code:</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -343,7 +394,7 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"></pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> &lt;div id=&quot;primary&quot; class=&quot;primary-content js-addressservice-url&quot; data-addressservice-url=&quot;${URLUtils.https('Paazl-AddressNL')}&quot;&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open pt_checkout.isml &amp; add the following changes in &lt;body&gt;&lt;/body&gt; section of the template just below &lt;isreplace/&gt; tag</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -352,10 +403,10 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">	&lt;isreplace/&gt;
-	&lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled')}&quot; &gt;
-		&lt;isinclude template=&quot;/checkout/initPaazlWidget&quot; /&gt;
-	&lt;/isif&gt;</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> &lt;isreplace/&gt;
+  &lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled')}&quot; &gt;
+    &lt;isinclude template=&quot;/checkout/initPaazlWidget&quot; /&gt;
+  &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open singleshipping.isml, <span style="color: rgb(9,30,66);">and modify the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -364,8 +415,8 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">// line # 24	                
-	&lt;form action=&quot;${URLUtils.continueURL()}&quot; method=&quot;post&quot; id=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; class=&quot;checkout-shipping address form-horizontal&quot;&gt;</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">// line # 24                 
+  &lt;form action=&quot;${URLUtils.continueURL()}&quot; method=&quot;post&quot; id=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; class=&quot;checkout-shipping address form-horizontal&quot;&gt;</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -385,9 +436,9 @@
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">// line # 114
 &lt;isif condition=&quot;${!empty(shipment.shippingMethod)}&quot;&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethod.displayName}&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethod.displayName}&quot;/&gt;&lt;/div&gt;
 &lt;iselse/&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethodID}&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethodID}&quot;/&gt;&lt;/div&gt;
 &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
@@ -397,15 +448,15 @@
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">&lt;isif condition=&quot;${pdict.paazlStatus.active}&quot;&gt;
-	&lt;iscomment&gt;If paazl enableb, use passed pazzlShipment instead &lt;/iscomment&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${pdict.paazlShipment.shippingMethodModel.description}&quot;/&gt;&lt;/div&gt;
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">&lt;isif condition=&quot;${pdict.paazlStatus &amp;&amp; pdict.paazlStatus.active}&quot;&gt;
+  &lt;iscomment&gt;If paazl enableb, use passed pazzlShipment instead &lt;/iscomment&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${pdict.paazlShipment.shippingMethodModel.description}&quot;/&gt;&lt;/div&gt;
 &lt;iselseif condition=&quot;${!empty(shipment.custom.paazlSelectedShippingMethod)}&quot;&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.custom.paazlSelectedShippingMethod}&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.custom.paazlSelectedShippingMethod}&quot;/&gt;&lt;/div&gt;
 &lt;iselseif condition=&quot;${!empty(shipment.shippingMethod)}&quot;&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethod.displayName}&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethod.displayName}&quot;/&gt;&lt;/div&gt;
 &lt;iselse/&gt;
-	&lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethodID}&quot;/&gt;&lt;/div&gt;
+  &lt;div class=&quot;value&quot;&gt;&lt;isprint value=&quot;${shipment.shippingMethodID}&quot;/&gt;&lt;/div&gt;
 &lt;/isif&gt;</pre> 
  </div>
 </div><p>   </p><p>Open orderdetails.isml, and modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
@@ -426,10 +477,10 @@
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">&lt;isif condition=&quot;${pdict.paazlStatus.active}&quot;&gt;
-	&lt;iscomment&gt;If paazl enabled and selected, use the passed pazzlShipment object instead &lt;/iscomment&gt;
-	&lt;isminishippingaddress p_shipment=&quot;${pdict.paazlShipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
+  &lt;iscomment&gt;If paazl enabled and selected, use the passed pazzlShipment object instead &lt;/iscomment&gt;
+  &lt;isminishippingaddress p_shipment=&quot;${pdict.paazlShipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
 &lt;iselse/&gt;
-	&lt;isminishippingaddress p_shipment=&quot;${shipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
+  &lt;isminishippingaddress p_shipment=&quot;${shipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
 &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>OPTIONAL: If you want to add more shipping country for the default US site and if these countries doesn't have states (ex: Netherlands), then open countries.json, and set the 'required' attribute of the States to false for the US country.</p><div class="code panel pdl" style="border-width: 1px;">
@@ -441,9 +492,9 @@
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">// line # 21
 &quot;states&quot;: [{
-	&quot;fieldName&quot;: &quot;state&quot;,
-	&quot;type&quot;: &quot;select&quot;,
-	&quot;required&quot;: false
+  &quot;fieldName&quot;: &quot;state&quot;,
+  &quot;type&quot;: &quot;select&quot;,
+  &quot;required&quot;: false
 }],</pre> 
  </div>
 </div>
