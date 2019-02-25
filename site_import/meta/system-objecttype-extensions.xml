@@ -90,21 +90,21 @@
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetCustomizedStyle">
-                <display-name xml:lang="x-default">Paazl Optional Customized Style</display-name>
-                <description xml:lang="x-default">This allows you to customize the style of the Paazl widget. This customized style is only used if the CUSTOMIZED option is selected from 'paazlWidgetPredefinedStyle'</description>
+                <display-name xml:lang="x-default">Custom Style</display-name>
+                <description xml:lang="x-default">This allowed you to customized the style of the Paazl widget. This customized style is only used if the CUSTOMIZED option is selected from 'paazlWidgetPredefinedStyle'</description>
                 <type>text</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
             <attribute-definition attribute-id="paazlDefaultShippingOption">
-                <display-name xml:lang="x-default">Paazl Default Shipping Option to display per country</display-name>
+                <display-name xml:lang="x-default">(Per Country) Default Shipping Option</display-name>
                 <type>text</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
             <attribute-definition attribute-id="paazlEnabled">
                 <display-name xml:lang="x-default">Enable Paazl</display-name>
-                <description xml:lang="x-default">If enabled, use Paazl widget instead of shipping methods configured in the BM</description>
+                <description xml:lang="x-default">If enabled, use Paazl widget instead of shipping methods configured in the BM.</description>
                 <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -118,8 +118,8 @@
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPredefinedStyle">
-                <display-name xml:lang="x-default">List of Paazl predefined widget style</display-name>
-                <description xml:lang="x-default">Paazl has a number of predefined widget styles that you can use to match your webshop branding</description>
+                <display-name xml:lang="x-default">Predefined Widget Styles</display-name>
+                <description xml:lang="x-default">Paazl has a number of predefined widget styles that you can use to match your webshop branding.</description>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -162,7 +162,7 @@
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetAvailableTabs">
-                <display-name xml:lang="x-default">Paazl Widget Available tabs</display-name>
+                <display-name xml:lang="x-default">Paazl Widget Available Tabs</display-name>
                 <description xml:lang="x-default">Select the tabs you want to display on the Paazl Widget.</description>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
@@ -180,8 +180,8 @@
                 </value-definitions>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetDefaultTabs">
-                <display-name xml:lang="x-default">Paazl Widget default tab</display-name>
-                <description xml:lang="x-default">Select the tab the Paazl widget should display first.</description>
+                <display-name xml:lang="x-default">Paazl Widget Default Tab</display-name>
+                <description xml:lang="x-default">Select the tabs you want to display on the Paazl Widget.</description>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -204,15 +204,15 @@
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPickupLocationsLimit">
-                <display-name xml:lang="x-default">Number of Pickup Location shown</display-name>
-                <description xml:lang="x-default">Limits the number of shipping options displayed on the widget's "pickup location" tab.</description>
+                <display-name xml:lang="x-default"># Pickup Tab Shipping Options</display-name>
+                <description xml:lang="x-default">Limits the number of shipping options displayed on the widget's "Pickup" tab.</description>
                 <type>int</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>20</default-value>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetShippingOptionsLimit">
-                <display-name xml:lang="x-default">Number of Shipping Options shown</display-name>
+                <display-name xml:lang="x-default"># Delivery Tab Shipping Options</display-name>
                 <description xml:lang="x-default">Limits the number of shipping options displayed on the widget's "Delivery" tab.</description>
                 <type>int</type>
                 <mandatory-flag>false</mandatory-flag>
@@ -220,8 +220,8 @@
                 <default-value>10</default-value>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPickupLocationsPageLimit">
-                <display-name xml:lang="x-default">Number of Pickup Location shown on Map</display-name>
-                <description xml:lang="x-default">Limits the number of pickup locations displayed on pickup location map.</description>
+                <display-name xml:lang="x-default"># Locations Shown On Map</display-name>
+                <description xml:lang="x-default">Limits the number of pickup locations displayed on the widget's pickup location map.</description>
                 <type>int</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
