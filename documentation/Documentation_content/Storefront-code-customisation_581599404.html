@@ -36,7 +36,7 @@
     
         
         
-            Created by <span class='author'> Thomas Frot</span>, last modified on jan 30, 2019
+            Created by <span class='author'> Thomas Frot</span>, last modified on mrt 07, 2019
                         </div>
                     <div id="main-content" class="wiki-content group">
                     <p>If you are using SiteGenesis, you need to add Paazl-specific code to the <strong>app_<em>storefront_core</em></strong> and <strong>app_<em>storefront_controller </em></strong>code.</p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><p><span style="color: rgb(255,102,0);"><strong>If you use SFRA, you can skip this page – there are no code changes needed.</strong></span></p><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcontrollerchanges"><u>Storefront controller changes</u></h2><p>Below are the changes that you have to implement, for each file. To find these files, go to <strong>app_storefront_controllers</strong> &gt; <strong>cartridge</strong>. </p><p>The following controllers need to be modified</p></div></div><ol><li>controllers/COShipping.js</li><li>controllers/COBilling.js</li><li>controllers/COSummary.js</li></ol><p><br/></p><p><br/></p><p>Open COShipping.js, go to 'updateShippingMethodList' function &amp;  modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
@@ -123,7 +123,7 @@
              return;
          }</pre> 
  </div>
-</div><p><br/></p><p>Open COShipping.js, go to 'handleShippingSettings' function line 125 &amp;  and replace the entire function with the one below</p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p>Open COShipping.js, go to 'handleShippingSettings' function line 125 &amp;  and replace entire function with the one below</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">COShipping existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
@@ -327,7 +327,7 @@ function handleShippingSettings(cart) {
         var viewContext = require('app_storefront_core/cartridge/scripts/common/extend').immutable(context, params);
         app.getView(viewContext).render('checkout/summary/summary');</pre> 
  </div>
-</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p><span class="inline-comment-marker" data-ref="d0390d8e-aed0-4feb-b648-cdafdcf8ba0f">Open calculate.js, and replace the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
+</div><p><br/></p><p><br/></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block"><div class="confluence-information-macro-body"><h2 class="article__heading article__section" id="Storefrontcodecustomisation-Storefrontcorechanges"><u>Storefront core changes</u></h2><p>Below are the changes that you have to implement in the storefront core code, for each file. To find these files, go to <strong>app_storefront_core</strong> &gt; <strong>cartridge</strong>. </p></div></div><p>The following templates &amp; scripts need to be modified</p><ol><li>scripts/cart/calculate.js</li><li>templates/default/checkout/minisummary.isml</li><li>templates/default/checkout/pt_checkout.isml</li><li>templates/default/checkout/shipping/singleshipping.isml</li><li>templates/default/components/order/orderdetails.isml</li><li>js/pages/checkout/shipping.js</li><li>scss/default/_checkout.scss</li><li>OPTIONAL: countries.json</li></ol><p><br/></p><p><span class="inline-comment-marker" data-ref="d0390d8e-aed0-4feb-b648-cdafdcf8ba0f">Open calculate.js, and replace the below piece of code</span></p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
   <b class=" code-title">calculate existing</b>
   <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
@@ -385,6 +385,7 @@ function handleShippingSettings(cart) {
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> &lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled') &amp;&amp; dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot; &gt;
     &lt;script type=&quot;text/javascript&quot; src=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;${URLUtils.staticURL('/js/paazl.js')}&quot; defer&gt;&lt;/script&gt;
   &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open pt_checkout.isml, in the &lt;body&gt;&lt;/body&gt; section replace the &lt;div id=&quot;primary&quot; class=&quot;primary-content&quot;&gt; line just above &lt;isreplace/&gt; tag with this code:</p><div class="code panel pdl" style="border-width: 1px;">
@@ -482,6 +483,62 @@ function handleShippingSettings(cart) {
 &lt;iselse/&gt;
   &lt;isminishippingaddress p_shipment=&quot;${shipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
 &lt;/isif&gt;</pre> 
+ </div>
+</div><p><br/></p><p>Open shipping.js &amp; add the following lines of code code after the '}' at line 138</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">shipping.js</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">//Paazl related changes
+$('body').trigger('shipping:updateShippingMethods', {
+    shipping: {
+         shippingMethodID: $shippingMethodList.find('.input-radio:checked').val()
+    }
+});</pre> 
+ </div>
+</div><p>   </p><p>Open shipping.js, and replace the following line of code</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">shipping.js existing</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">// line # 124
+$shippingMethodList.load(smlUrl, function () {</pre> 
+ </div>
+</div><p><br/></p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">shipping.js modified</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">$shippingMethodList.load(smlUrl, function (data) {</pre> 
+ </div>
+</div><p><br/></p><p>Open shipping.js &amp; add the following line of code after line 77</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">shipping.js</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">//Paazl related changes
+$('body').trigger('shipping:updateShippingMethods', { shipping : data });</pre> 
+ </div>
+</div><p><br/></p><p>Open _checkout.scss &amp; at the end of the file add the following lines of code</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class=" code-title">_checkout.scss</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">Bron uitklappen</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">#paazl-checkout {
+    footer {
+        background-color: inherit;
+    }
+}</pre> 
  </div>
 </div><p><br/></p><p>OPTIONAL: If you want to add more shipping country for the default US site and if these countries doesn't have states (ex: Netherlands), then open countries.json, and set the 'required' attribute of the States to false for the US country.</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
