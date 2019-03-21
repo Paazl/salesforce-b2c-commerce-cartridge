@@ -124,6 +124,7 @@ function initPaazlWidget() {
         consigneePostalCode: postalCode,
         language: language,
         currency: currency,
+        isShowAsExtraCost: false,
 
         deliveryOptionDateFormat: 'ddd DD MMM',
         deliveryEstimateDateFormat: 'dddd DD MMMM',
