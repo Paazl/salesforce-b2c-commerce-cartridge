@@ -4,7 +4,7 @@
           ? URLUtils.url('CheckoutAddressServices-AddNewAddress')
           : URLUtils.url('CheckoutShippingServices-SubmitShipping')}"
           data-address-mode="${shippingModel.matchingAddressId ? 'edit' : 'new'}"
-          <isprint value=${pdict.forms.shippingForm.attributes} encoding="off"/>
+          <isprint value="${pdict.forms.shippingForm.attributes}" encoding="htmlsinglequote"/>
     >
         <isif condition="${lineItem}">
             <input name="productLineItemUUID" type="hidden" value="${lineItem.UUID}" />
@@ -25,7 +25,7 @@
             <fieldset class="shipping-method-block">
                 <h5>${Resource.msg('heading.shipping.method', 'checkout', null)}</h5>
                 <isif condition="${pdict.isPaazlUniqueShippingOption}">
-                    <isif condition="${pdict.paazlStatus.active}">
+                    <isif condition="${pdict.paazlStatus && pdict.paazlStatus.active}">
                         <div id="paazl-checkout"></div>
                     </isif>
                 <iselse/>
@@ -50,7 +50,9 @@
 
     <isif condition="${pdict.paazlWidgetCustomizedStyle}" >
         <div>
-            <isprint value="${pdict.paazlWidgetCustomizedStyle}" encoding="off" />
+            <style>
+                ${pdict.paazlWidgetCustomizedStyle}
+            </style>
         </div>
     </isif>
 

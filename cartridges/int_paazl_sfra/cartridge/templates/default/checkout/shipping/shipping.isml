@@ -10,7 +10,7 @@
 
             <div class="shipping-error"></div>
 
-            <isif condition="${pdict.paazlStatus.applicable}">
+            <isif condition="${pdict.paazlStatus && pdict.paazlStatus.applicable}">
                 <isinclude template="checkout/shipping/paazlShipmentCard" />
             <iselse/>
                 <isinclude template="checkout/shipping/multiShipCheckbox" />

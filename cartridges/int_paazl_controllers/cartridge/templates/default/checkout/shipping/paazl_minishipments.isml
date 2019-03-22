@@ -54,7 +54,7 @@
 						<iscomment>
 							If paazl enableb, use passed pazzlShipment instead
 						</iscomment>
-						<isif condition="${pdict.paazlStatus.active && pdict.paazlShipment && pdict.paazlShipment.shippingAddress != null}">
+						<isif condition="${pdict.paazlStatus && pdict.paazlStatus.active && pdict.paazlShipment && pdict.paazlShipment.shippingAddress != null}">
 							<isminicheckout_address p_address="${pdict.paazlShipment.shippingAddress}"/>
 
 							<isif condition="${!empty(pdict.paazlShipment.shippingMethodModel.description)}">

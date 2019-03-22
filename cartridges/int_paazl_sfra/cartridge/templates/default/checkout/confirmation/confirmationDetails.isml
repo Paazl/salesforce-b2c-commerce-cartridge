@@ -12,7 +12,7 @@
             <span class="summary-details order-date"><isprint value="${pdict.order.creationDate}" style="DATE_SHORT"/></span>
         </p>
 
-        <isif condition="${pdict.paazlStatus.active}">
+        <isif condition="${pdict.paazlStatus && pdict.paazlStatus.active}">
             <isinclude template="checkout/shipping/paazlShippingSummary" />
         <iselse/> 
             <isinclude template="checkout/shipping/shippingSummary" />

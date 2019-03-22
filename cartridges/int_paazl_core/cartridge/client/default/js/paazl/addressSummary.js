@@ -31,7 +31,7 @@ function assignListeners() {
       var data = xhr.responseJSON;
 
     // Stop if the shipping method is not Paazl
-      if (!(data && data.paazlStatus.active && data.paazlShippingMethod)) {
+      if (!(data && data.paazlStatus && data.paazlStatus.active && data.paazlShippingMethod)) {
         return;
     }
 

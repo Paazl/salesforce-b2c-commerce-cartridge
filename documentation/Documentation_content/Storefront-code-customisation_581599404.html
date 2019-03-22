@@ -426,7 +426,7 @@ function handleShippingSettings(cart) {
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">    &lt;form action=&quot;${URLUtils.continueURL()}&quot; method=&quot;post&quot; id=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; name=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; class=&quot;checkout-shipping address form-horizontal ${pdict.paazlStatus.applicable ? 'js-paazlwidget-form': ''}&quot;&gt;</pre> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">    &lt;form action=&quot;${URLUtils.continueURL()}&quot; method=&quot;post&quot; id=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; name=&quot;${pdict.CurrentForms.singleshipping.shippingAddress.htmlName}&quot; class=&quot;checkout-shipping address form-horizontal ${pdict.paazlStatus &amp;&amp; pdict.paazlStatus.applicable ? 'js-paazlwidget-form': ''}&quot;&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open orderdetails.isml, and modify the below piece of code</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
@@ -477,7 +477,7 @@ function handleShippingSettings(cart) {
   <span class="collapse-spinner-wrapper"></span>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
-  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">&lt;isif condition=&quot;${pdict.paazlStatus.active}&quot;&gt;
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">&lt;isif condition=&quot;${pdict.paazlStatus &amp;&amp; pdict.paazlStatus.active}&quot;&gt;
   &lt;iscomment&gt;If paazl enabled and selected, use the passed pazzlShipment object instead &lt;/iscomment&gt;
   &lt;isminishippingaddress p_shipment=&quot;${pdict.paazlShipment}&quot; p_editable=&quot;${false}&quot; p_showmethod=&quot;${false}&quot; p_showpromos=&quot;${false}&quot;/&gt;
 &lt;iselse/&gt;
@@ -525,7 +525,7 @@ $shippingMethodList.load(smlUrl, function () {</pre>
  </div>
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">//Paazl related changes
-$('body').trigger('shipping:updateShippingMethods', { shipping : data });</pre> 
+$('body').trigger('shipping:updateShippingMethods', { shipping : {shippingMethodID: shippingMethodID} });</pre> 
  </div>
 </div><p><br/></p><p>Open _checkout.scss &amp; at the end of the file add the following lines of code</p><div class="code panel pdl" style="border-width: 1px;">
  <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">

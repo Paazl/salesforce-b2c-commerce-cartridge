@@ -20,32 +20,6 @@
         </group-definitions>
     </type-extension>
 
-    <type-extension type-id="Order">
-        <custom-attribute-definitions>
-            <attribute-definition attribute-id="paazlOrderSaved">
-                <display-name xml:lang="x-default">Is the order committed into Paazl</display-name>
-                <description xml:lang="x-default">If the order isn't created into Paazl, TrimIT will have to manually take care of the product shipment</description>
-                <type>boolean</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>true</externally-managed-flag>
-            </attribute-definition>
-            <attribute-definition attribute-id="paazlPendingOrderID">
-                <display-name xml:lang="x-default">Pending Paazl Order ID</display-name>
-                <type>string</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>true</externally-managed-flag>
-                <min-length>0</min-length>
-            </attribute-definition>
-        </custom-attribute-definitions>
-        <group-definitions>
-            <attribute-group group-id="custom">
-                <display-name xml:lang="x-default">Custom</display-name>
-                <attribute attribute-id="paazlPendingOrderID"/>
-                <attribute attribute-id="paazlOrderSaved"/>
-            </attribute-group>
-        </group-definitions>
-    </type-extension>
-
     <type-extension type-id="Shipment">
         <custom-attribute-definitions>
             <attribute-definition attribute-id="paazlDeliveryInfo">

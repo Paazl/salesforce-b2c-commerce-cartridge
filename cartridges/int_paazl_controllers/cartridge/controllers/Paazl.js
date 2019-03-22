@@ -18,13 +18,13 @@ var app = require('*/cartridge/scripts/app');
  */
 function addressNL() {
     var addressService = require('*/cartridge/scripts/services/SOAP/paazlAddressValidation');
-    var addressValidationResponse = {};
+    var addressValidationObj = {};
 
     // Fetch the basket UUID
     var BasketMgr = require('dw/order/BasketMgr');
     var currentBasket = BasketMgr.getCurrentBasket();
     if (!currentBasket) {
-        addressValidationResponse = {
+        addressValidationObj = {
             success: false,
             errorMessage: 'No existing basket'
         };
@@ -36,20 +36,20 @@ function addressNL() {
     var houseNbr = request.httpParameterMap.houseNbr.value; // eslint-disable-line no-undef
     var country = request.httpParameterMap.country.value; // eslint-disable-line no-undef
     if (!country || country !== 'NL') {
-        addressValidationResponse = {
+        addressValidationObj = {
             success: false,
             errorMessage: 'Current country not supported'
         };
     }
     if (!zipCode) {
-        addressValidationResponse = {
+        addressValidationObj = {
             success: false,
             errorMessage: 'ZipCode is missing'
         };
     }
 
     if (!houseNbr) {
-        addressValidationResponse = {
+        addressValidationObj = {
             success: false,
             errorMessage: 'House number is missing'
         };
@@ -57,7 +57,7 @@ function addressNL() {
 
     var result = addressService.address({ zipCode: zipCode, paazlReferenceID: paazlReferenceID, houseNbr: houseNbr });
     if (result.success) {
-        addressValidationResponse = {
+        addressValidationObj = {
             success: true,
             address: {
                 addition: result.address.addition,
@@ -74,9 +74,10 @@ function addressNL() {
         };
     }
 
-    app.getView({
-        addressValidationResponse: addressValidationResponse
-    }).render('addressvalidationjson');
+    response.setContentType('application/json');
+
+    let addressValidationResponse = JSON.stringify(addressValidationObj);
+    response.writer.print(addressValidationResponse);
 }
 
 

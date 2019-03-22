@@ -12,7 +12,7 @@
                 </isif>
             </label>
         </div>
-        <isif condition="${pdict.paazlStatus.active && shippingMethod.ID === pdict.currentPaazlShippingMethodID}">
+        <isif condition="${pdict.paazlStatus && pdict.paazlStatus.active && shippingMethod.ID === pdict.currentPaazlShippingMethodID}">
             <div id="paazl-checkout"></div>
         <iselse/>
             <div class="col-3 text-right shipping-method-pricing end-lines">

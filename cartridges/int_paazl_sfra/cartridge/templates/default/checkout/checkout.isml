@@ -56,7 +56,7 @@
                         <span class="edit-button pull-right">${Resource.msg('action.edit.step', 'checkout', null)}</span>
                     </div>
                     <div class="card-body">
-                        <isif condition="${pdict.paazlStatus.active}">
+                        <isif condition="${pdict.paazlStatus && pdict.paazlStatus.active}">
                             <isinclude template="checkout/shipping/paazlShippingSummary" />
                         <iselse/> 
                             <isinclude template="checkout/shipping/shippingSummary" />
