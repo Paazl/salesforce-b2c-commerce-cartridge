@@ -2,7 +2,7 @@
     "hooks": [
         {
             "name": "dw.order.calculateShipping",
-            "script": "./hooks/cart/calculate.js"
+            "script": "./hooks/cart/paazlCalculate.js"
         }
     ]
 }

@@ -172,7 +172,7 @@ function assign (scope) {
    * Populates the address fields with the retrieved response
    */
   function populateAddressFields (response) {
-    if (response && response.address) {
+    if (response && response.success && response.address) {
       Model.currentForm.find(selectors.address.street).val(response.address.street);
       Model.currentForm.find(selectors.address.city).val(response.address.city);
 
@@ -203,17 +203,18 @@ function assign (scope) {
     // cache results if success response
     if (resp.success) {
       Model.cachedResults[Model.locationKey] = resp;
+      Model.cachedResults[Model.locationKey].success = true;
       Model.populateAddressFields(resp);
     } else {
       // no address found, clear previous result
       Model.cachedResults[Model.locationKey] = {
+        success: false,
         address: {
           street: '',
           city: '',
           addition: ''
         }
       };
-      Model.clearAddressFields();
     }
   }
 

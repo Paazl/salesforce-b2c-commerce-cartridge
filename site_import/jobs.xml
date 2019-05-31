@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+    <job job-id="Paazl-Commit-Order" priority="0">
+        <description>Commit/Save Orders into the Paazl system</description>
+        <parameters/>
+        <split sequential="false">
+            <flow>
+                <context site-id="RefArch"/>
+                <template-ref template-id="template_38"/>
+            </flow>
+            <flow>
+                <context site-id="RefArchGlobal"/>
+                <template-ref template-id="template_38"/>
+            </flow>
+            <flow>
+                <context site-id="SiteGenesis"/>
+                <template-ref template-id="template_38"/>
+            </flow>
+            <flow>
+                <context site-id="SiteGenesisGlobal"/>
+                <template-ref template-id="template_38"/>
+            </flow>
+            <flow-template template-id="template_38">
+                <step step-id="paazl-commit" type="custom.Paazl.CommitOrders" enforce-restart="false">
+                    <description/>
+                    <parameters>
+                        <parameter name="disabled">false</parameter>
+                    </parameters>
+                    <rules>
+                        <on-exit status="*,DISABLED,ERROR">
+                            <stop-job/>
+                        </on-exit>
+                    </rules>
+                </step>
+            </flow-template>
+        </split>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2019-04-26Z</date-from>
+                    <start-time>18:59:42.000Z</start-time>
+                    <interval>5m</interval>
+                    <day-of-week>
+                        <weekday>Monday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Wednesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Saturday</weekday>
+                        <weekday>Sunday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+</jobs>

@@ -20,6 +20,24 @@
         </group-definitions>
     </type-extension>
 
+    <type-extension type-id="Order">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="notSavedInPaazl">
+                <display-name xml:lang="x-default">Order not yet saved/committed in Paazl</display-name>
+                <description xml:lang="x-default">Order not yet saved/committed in Paazl</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="custom">
+                <display-name xml:lang="x-default">Custom</display-name>
+                <attribute attribute-id="notSavedInPaazl"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
     <type-extension type-id="Shipment">
         <custom-attribute-definitions>
             <attribute-definition attribute-id="paazlDeliveryInfo">
@@ -52,20 +70,26 @@
             <attribute-definition attribute-id="paazlAPIKey">
                 <display-name xml:lang="x-default">Paazl API Key</display-name>
                 <type>string</type>
-                <mandatory-flag>false</mandatory-flag>
+                <mandatory-flag>true</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlAPISecret">
                 <display-name xml:lang="x-default">Paazl API Secret</display-name>
                 <type>string</type>
-                <mandatory-flag>false</mandatory-flag>
+                <mandatory-flag>true</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetCustomizedStyle">
                 <display-name xml:lang="x-default">Custom Style</display-name>
                 <description xml:lang="x-default">This allowed you to customized the style of the Paazl widget. This customized style is only used if the CUSTOMIZED option is selected from 'paazlWidgetPredefinedStyle'</description>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlDefaultSenderAddress">
+                <display-name xml:lang="x-default">Default Sender Address to be sent in Commit Order</display-name>
                 <type>text</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -79,6 +103,14 @@
             <attribute-definition attribute-id="paazlEnabled">
                 <display-name xml:lang="x-default">Enable Paazl</display-name>
                 <description xml:lang="x-default">If enabled, use Paazl widget instead of shipping methods configured in the BM.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetNominatedDateEnabled">
+                <display-name xml:lang="x-default">Enable Nominated Date</display-name>
+                <description xml:lang="x-default">If true, shipping options will be displayed grouped by date. If false, the list will be displayed in ascending order of price, i.e. the least expensive option will be at the top.</description>
                 <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -131,7 +163,7 @@
             <attribute-definition attribute-id="paazlWebshopID">
                 <display-name xml:lang="x-default">Paazl Webshop ID</display-name>
                 <type>string</type>
-                <mandatory-flag>false</mandatory-flag>
+                <mandatory-flag>true</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
@@ -148,6 +180,10 @@
                         <value>DELIVERY</value>
                     </value-definition>
                     <value-definition>
+                        <display xml:lang="x-default">STORE</display>
+                        <value>STORE</value>
+                    </value-definition>
+                    <value-definition>
                         <display xml:lang="x-default">PICKUP</display>
                         <value>PICKUP</value>
                     </value-definition>
@@ -155,7 +191,7 @@
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetDefaultTabs">
                 <display-name xml:lang="x-default">Paazl Widget Default Tab</display-name>
-                <description xml:lang="x-default">Select the tabs you want to display on the Paazl Widget.</description>
+                <description xml:lang="x-default">Select the tab you want to be selected by default.</description>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -168,6 +204,10 @@
                         <display xml:lang="x-default">PICKUP</display>
                         <value>PICKUP</value>
                     </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">STORE</display>
+                        <value>STORE</value>
+                    </value-definition>
                 </value-definitions>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetEndpoint">
@@ -176,14 +216,6 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
-            </attribute-definition>
-            <attribute-definition attribute-id="paazlWidgetPickupLocationsLimit">
-                <display-name xml:lang="x-default"># Pickup Tab Shipping Options</display-name>
-                <description xml:lang="x-default">Limits the number of shipping options displayed on the widget's "Pickup" tab.</description>
-                <type>int</type>
-                <mandatory-flag>false</mandatory-flag>
-                <externally-managed-flag>false</externally-managed-flag>
-                <default-value>20</default-value>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetShippingOptionsLimit">
                 <display-name xml:lang="x-default"># Delivery Tab Shipping Options</display-name>
@@ -195,11 +227,27 @@
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPickupLocationsPageLimit">
                 <display-name xml:lang="x-default"># Locations Shown On Map</display-name>
-                <description xml:lang="x-default">Limits the number of pickup locations displayed on the widget's pickup location map.</description>
+                <description xml:lang="x-default">Limits the number of pickup locations initially displayed on the widget's "pickup" and "Store" map.</description>
                 <type>int</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>10</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetInitialPickupLocationsLimit">
+                <display-name xml:lang="x-default"># Pickup Tab Shipping Options</display-name>
+                <description xml:lang="x-default">Limits the number of pickup locations displayed on the widget's "Pickup" and "Store" tabs.</description>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>3</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetPickupLocationsLimit">
+                <display-name xml:lang="x-default"># Max Locations Shown On Map</display-name>
+                <description xml:lang="x-default">Limits the maximum number of pickup locations displayed on the widget's pickup location map.</description>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>20</default-value>
             </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
@@ -214,11 +262,14 @@
                 <attribute attribute-id="paazlWidgetAvailableTabs"/>
                 <attribute attribute-id="paazlWidgetDefaultTabs"/>
                 <attribute attribute-id="paazlWidgetShippingOptionsLimit"/>
-                <attribute attribute-id="paazlWidgetPickupLocationsLimit"/>
+                <attribute attribute-id="paazlWidgetInitialPickupLocationsLimit"/>
                 <attribute attribute-id="paazlWidgetPickupLocationsPageLimit"/>
+                <attribute attribute-id="paazlWidgetPickupLocationsLimit"/>
+                <attribute attribute-id="paazlWidgetNominatedDateEnabled"/>
                 <attribute attribute-id="paazlWidgetPredefinedStyle"/>
                 <attribute attribute-id="paazlWidgetCustomizedStyle"/>
                 <attribute attribute-id="paazlDefaultShippingOption"/>
+                <attribute attribute-id="paazlDefaultSenderAddress"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

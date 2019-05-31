@@ -28,7 +28,7 @@ var selectors = {
     addition: false,
     postalCode: 'input[name*=_postal]',
     city: 'input[name$=_city]',
-    country: 'select[name$=_country]'
+    country: 'select[name*=_country]'
   },
   attrs: {
     addressServiceUrl: 'data-addressservice-url'

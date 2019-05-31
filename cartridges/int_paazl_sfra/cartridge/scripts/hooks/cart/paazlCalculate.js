@@ -8,12 +8,13 @@ var ShippingMgr = require('dw/order/ShippingMgr');
  * @param {dw.order.Basket} basket - the current basket
  * @returns {dw.system.Status} Status - status
  */
-function calculateShipping(basket) {
+function calculateShipping (basket) {
 	// Check if Paazl is enable and selected as shipping method
     var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
     var paazlStatus = paazlHelper.getPaazlStatus(basket.defaultShipment);
     ShippingMgr.applyShippingCost(basket);
     if (paazlStatus.active) {
+        // override default sfcc calculation of shipping cost
         paazlHelper.calculateShipping(basket);
     }
     return new Status(Status.OK);

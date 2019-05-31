@@ -3,8 +3,8 @@
 /* global PaazlCheckout */
 
 var selectors = require('./constants').selectors;
-var addressCompletion = require('./addressCompletion');
-var addressSummary = require('./addressSummary');
+var addressCompletion = require('./address_completion');
+var addressSummary = require('./address_summary');
 var widget = require('./widget');
 
 /**

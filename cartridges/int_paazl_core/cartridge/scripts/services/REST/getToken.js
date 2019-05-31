@@ -94,7 +94,7 @@ function getTokenService() {
             } else {
                 var errorMessages = JSON.parse(result.errorMessage);
                 if (errorMessages && errorMessages.errors && errorMessages.errors.length > 0) {
-                    var errorMessage = errorMessages[0];
+                    var errorMessage = errorMessages.errors[0];
                     if (errorMessage.message === 'Reference is not unique') {
                         output.success = true;
                         Logger.info('REST API token already requested from Paazl.');

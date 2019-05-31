@@ -36,7 +36,6 @@ function getCheckoutService() {
             svc.addHeader('Authorization', bearer);
             svc.setRequestMethod('GET');
 
-            //svc.addParam('reference', params.orderReference);
             svc.addParam('reference', params.orderReference);
         }
 
@@ -61,6 +60,8 @@ function getCheckoutService() {
                         Logger.error('REST API Checkout - No deliveryType info return from Paazl.');
                         return selectedOptionResponse;
                     }
+                    // The day of the week on which customers want their order delivered.
+                    selectedOptionResponse.preferredDeliveryDate = selectedOption.preferredDeliveryDate;
                     var shippingOption = selectedOption.shippingOption;
                     if (shippingOption) {
                         selectedOptionResponse.carrierName = (shippingOption.carrier && shippingOption.carrier.name) || '';
@@ -79,6 +80,8 @@ function getCheckoutService() {
                         if (pickupLocation) {
                             selectedOptionResponse.pickupLocation = {};
                             selectedOptionResponse.pickupLocation.name = pickupLocation.name || '';
+                            selectedOptionResponse.pickupLocation.accountNumber = pickupLocation.accountNumber || '';
+                            selectedOptionResponse.pickupLocation.code = pickupLocation.code || '';
                             selectedOptionResponse.pickupLocation.openingTimes = pickupLocation.openingTimes || {};
                             var shippingAddress = {};
                             if (pickupLocation.address) {
@@ -124,7 +127,7 @@ function getCheckoutService() {
      * @returns{dw.svc.Result} Service Result
      */
     function getSelectedOption(params) {
-        var output = {success: false};
+        var output = { success: false };
         try {
             var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
             var serviceID = 'service.paazl.rest.getSelectedOption';

@@ -8,7 +8,7 @@
 	<field formid="city" label="resource.city" type="string" mandatory="true" binding="city" min-length="2" max-length="50" missing-error="address.city.missing" range-error="address.field.invalid" />
 
 	<!--  postal code -->
-	<field formid="postal" label="resource.zipcode" type="string" mandatory="true" min-length="5" max-length="10"  binding="postalCode"
+	<field formid="postal" label="resource.zipcode" type="string" mandatory="true" min-length="1" max-length="10"  binding="postalCode"
 		missing-error="resource.errorzip"/>
 
 	<!-- use set of supported shipping countries -->
@@ -16,6 +16,13 @@
 		<options>
 			<option optionid="us" label="country.unitedstates" value="us"/>
 			<option optionid="nl" label="country.netherlands" value="nl"/>
+			<option optionid="gb" label="country.unitedkingdom" value="gb"/>
+			<option optionid="de" label="country.deutschland" value="de"/>
+			<option optionid="be" label="country.belgium" value="be"/>
+			<option optionid="fr" label="country.france" value="fr"/>
+			<option optionid="au" label="country.australia" value="au"/>
+			<option optionid="ch" label="country.switzerland" value="ch"/>
+			<option optionid="jp" label="country.japan" value="jp"/>
 		</options>
 	</field>
 

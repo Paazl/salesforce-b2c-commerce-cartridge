@@ -60,11 +60,11 @@ function initPaazlWidget() {
         postalCode = request.geolocation.postalCode;// eslint-disable-line no-undef
     }
 
-    if (shippingAddress && shippingAddress.countryCode && !empty(shippingAddress.countryCode.value)) {
+    if (shippingAddress && shippingAddress.countryCode && shippingAddress.countryCode.value) {
         countryCode = shippingAddress.countryCode.value;
     } else if (request.geolocation && request.geolocation.countryCode) { // eslint-disable-line no-undef
         countryCode = request.geolocation.countryCode;// eslint-disable-line no-undef
-    } else if (billingAddress && billingAddress.countryCode && !empty(billingAddress.countryCode.value)) {
+    } else if (billingAddress && billingAddress.countryCode && billingAddress.countryCode.value) {
         countryCode = billingAddress.countryCode.value;
     } else if (currentLocale && currentLocale.country) {
         countryCode = currentLocale.country;
@@ -99,6 +99,10 @@ function initPaazlWidget() {
 
     var paazlWidgetPickupLocationsPageLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsPageLimit');
 
+    var paazlWidgetInitialPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetInitialPickupLocationsLimit');
+
+    var nominatedDateEnabled = Site.current.getCustomPreferenceValue('paazlWidgetNominatedDateEnabled') || false;
+
     var style;
     var selectedStyle = Site.current.getCustomPreferenceValue('paazlWidgetPredefinedStyle');
     if (selectedStyle && selectedStyle.displayValue && selectedStyle.displayValue !== 'CUSTOMIZED') {
@@ -119,7 +123,7 @@ function initPaazlWidget() {
         availableTabs: availableTabs,
         defaultTab: paazlWidgetDefaultTabs.value,
         style: style,
-        nominatedDateEnabled: false,
+        nominatedDateEnabled: nominatedDateEnabled,
         consigneeCountryCode: countryCode,
         consigneePostalCode: postalCode,
         language: language,
@@ -141,9 +145,8 @@ function initPaazlWidget() {
         shippingOptionsLimit: paazlWidgetShippingOptionsLimit,
         pickupLocationsPageLimit: paazlWidgetPickupLocationsPageLimit,
         pickupLocationsLimit: paazlWidgetPickupLocationsLimit,
-        initialPickupLocations: paazlWidgetPickupLocationsLimit
+        initialPickupLocations: paazlWidgetInitialPickupLocationsLimit
     };
-
     return paazlWidget;
 }
 
