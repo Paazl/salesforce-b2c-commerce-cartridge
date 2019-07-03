@@ -89,7 +89,7 @@
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
             <attribute-definition attribute-id="paazlDefaultSenderAddress">
-                <display-name xml:lang="x-default">Default Sender Address to be sent in Commit Order</display-name>
+                <display-name xml:lang="x-default">Default Sender Address</display-name>
                 <type>text</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -242,7 +242,7 @@
                 <default-value>3</default-value>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPickupLocationsLimit">
-                <display-name xml:lang="x-default"># Max Locations Shown On Map</display-name>
+                <display-name xml:lang="x-default">Max # Locations shown on map</display-name>
                 <description xml:lang="x-default">Limits the maximum number of pickup locations displayed on the widget's pickup location map.</description>
                 <type>int</type>
                 <mandatory-flag>false</mandatory-flag>
