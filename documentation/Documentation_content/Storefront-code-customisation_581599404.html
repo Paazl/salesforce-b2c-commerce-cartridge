@@ -280,6 +280,7 @@ function handleShippingSettings(cart) {
         paazlHelper.updateShipment(order);
 
         // Add paazl select shipping option info to the data model
+        var paazlShippingModel = paazlHelper.getPaazlShippingModel(order);
         params.paazlShipment = paazlShippingModel;
         params.paazlStatus = paazlStatus;
         var Transaction = require('dw/system/Transaction');

@@ -29,6 +29,10 @@ function getAddress(orderAddress) {
     address.postalCode = orderAddress.postalCode;
     address.province = orderAddress.stateCode || '';
     address.street = orderAddress.address1;
+    var streetLines = [];
+    var streetLine = orderAddress.address1
+    streetLines.push(streetLine);
+    address.streetLines = streetLines;
 
     // 123 A -> ['123', 'A'] or 5-980 -> ['5', '980']
     var houseNumberAndExt = orderAddress.address2 || '';

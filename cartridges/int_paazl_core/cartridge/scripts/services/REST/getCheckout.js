@@ -114,9 +114,21 @@ function getCheckoutService() {
             }
             return selectedOptionResponse;
         }
+
+        /**
+         * filter the logged message
+         *
+         * @param {string} msg The message to filter
+         * @returns {Object} The filtered message
+         */
+        function filterLogMessage(msg) {
+            return msg;
+        }
+
         return {
             createRequest: createRequest,
-            parseResponse: parseResponse
+            parseResponse: parseResponse,
+            filterLogMessage: filterLogMessage
         };
     }
 

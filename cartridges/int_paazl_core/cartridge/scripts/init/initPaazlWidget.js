@@ -119,7 +119,7 @@ function initPaazlWidget() {
         apiKey: Site.current.getCustomPreferenceValue('paazlAPIKey') || '',
         token: token,
         loadPaazlBasedData: true,
-        loadCarrierBasedData: false,
+        loadCarrierBasedData: true,
         availableTabs: availableTabs,
         defaultTab: paazlWidgetDefaultTabs.value,
         style: style,

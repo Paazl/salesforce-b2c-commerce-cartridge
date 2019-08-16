@@ -63,9 +63,21 @@ function commitOrderService() {
         function parseResponse(svc, response) {
             return { success: true };
         }
+
+        /**
+         * filter the logged message
+         *
+         * @param {string} msg The message to filter
+         * @returns {Object} The filtered message
+         */
+        function filterLogMessage(msg) {
+            return msg;
+        }
+
         return {
             createRequest: createRequest,
-            parseResponse: parseResponse
+            parseResponse: parseResponse,
+            filterLogMessage: filterLogMessage
         };
     }
 

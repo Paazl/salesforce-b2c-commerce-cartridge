@@ -70,11 +70,22 @@ function addressService() {
             return result;
         }
 
+        /**
+         * filter the logged message
+         *
+         * @param {string} msg The message to filter
+         * @returns {Object} The filtered message
+         */
+        function filterLogMessage(msg) {
+            return msg;
+        }
+
         return {
             initServiceClient: initServiceClient,
             createRequest: createRequest,
             execute: execute,
-            parseResponse: parseResponse
+            parseResponse: parseResponse,
+            filterLogMessage: filterLogMessage
         };
     }
 
