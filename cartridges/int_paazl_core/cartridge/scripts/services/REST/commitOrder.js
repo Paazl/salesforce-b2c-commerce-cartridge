@@ -10,20 +10,20 @@ var StringUtils = require('dw/util/StringUtils');
  */
 function commitOrderService() {
     /**
-     * Implement service callbacks
-     *
-     * @returns {Object} service callback
-     * @param {dw.order.Order} order - the order being exported
-     * @private
-     */
+      * Implement service callbacks
+      *
+      * @returns {Object} service callback
+      * @param {dw.order.Order} order - the order being exported
+      * @private
+      */
     function callback() {
         /**
-         * Creates the request
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} params Required fields for service call
-         * @returns{string} post request payload
-         */
+          * Creates the request
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} params Required fields for service call
+          * @returns{string} post request payload
+          */
         function createRequest(svc, params) {
             var paazlAPIKey = Site.current.getCustomPreferenceValue('paazlAPIKey');
             var paazlAPISecret = Site.current.getCustomPreferenceValue('paazlAPISecret');
@@ -54,13 +54,13 @@ function commitOrderService() {
         }
 
         /**
-         * Parse the response
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} response Service response
-         * @returns {Object} Service response
-         */
-        function parseResponse(svc, response) {
+          * Parse the response
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} response Service response
+          * @returns {Object} Service response
+          */
+        function parseResponse() {
             return { success: true };
         }
 
@@ -82,11 +82,11 @@ function commitOrderService() {
     }
 
     /**
-     * Call Commit Order(Save Order) REST API service
-     *
-     * @param {Object} params Required fields for service call
-     * @returns{Object} success true/false status js object { success: true }
-     */
+      * Call Commit Order(Save Order) REST API service
+      *
+      * @param {Object} params Required fields for service call
+      * @returns{Object} success true/false status js object { success: true }
+      */
     function commitOrder(params) {
         var output = { success: false };
         var apiOrder = params.order;

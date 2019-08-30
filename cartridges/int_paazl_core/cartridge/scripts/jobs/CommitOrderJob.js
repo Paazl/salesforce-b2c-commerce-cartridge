@@ -29,7 +29,7 @@ function orderCallback(order) {
  * yet committed i.e have order custom attribute "notSavedInPaazl" set as TRUE
  *
  * @param {dw.List.HashMap} args job parameters
- * @returns{dw.system.Status}
+ * @returns {dw.system.Status} - The Status
  */
 function process(args) {
     if (args.disabled) {

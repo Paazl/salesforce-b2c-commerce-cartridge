@@ -13,7 +13,7 @@ var logger = require('dw/system/Logger').getLogger('paazlAPI', 'paazl');
  * @param {Object} customer - the current customer model
  * @param {string} containerView - the view of the product line items (order or basket)
  */
-function ShippingModel(shipment, address, customer, containerView) { // eslint-disable-line no-unused-vars
+function ShippingModel (shipment, address, customer, containerView) { // eslint-disable-line no-unused-vars
     base.apply(this, arguments);
     var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
     var currentPaazlShippingMethodID = paazlHelper.getShippingMethodID();

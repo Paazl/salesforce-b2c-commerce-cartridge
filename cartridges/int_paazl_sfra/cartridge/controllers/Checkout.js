@@ -3,14 +3,13 @@
 var server = require('server');
 server.extend(module.superModule);
 
-var Site = require('dw/system/Site');
-var BasketMgr = require('dw/order/BasketMgr');
-
 // Main entry point for Checkout
 server.append(
     'Begin', function (req, res, next) {
-        // Check if Paazl is enable and selected as shipping method
+        var Site = require('dw/system/Site');
+        var BasketMgr = require('dw/order/BasketMgr');
 
+        // Check if Paazl is enable and selected as shipping method
         var currentBasket = BasketMgr.getCurrentBasket();
         if (!currentBasket) {
             return next();

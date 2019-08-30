@@ -10,7 +10,7 @@ var formatMoney = require('dw/util/StringUtils').formatMoney;
  * @param {number} shippingCost - the shippingCost value of the selected shipping option
  * @returns {string} String representation of Shipping Cost
  */
-function getShippingCost(shippingCost) {
+function getShippingCost (shippingCost) {
     var cost = new Money(shippingCost, session.getCurrency()); // eslint-disable-line no-undef
     return formatMoney(cost);
 }
@@ -18,9 +18,9 @@ function getShippingCost(shippingCost) {
 
 /**
  * Plain JS object that represents a DW Script API dw.order.ShippingMethod object
- * @param {Object} paazlDeliveryInfo - JSON object of the Paazl deleivery info
+ * @param {Object} paazlDeliveryInfo - JSON object of the Paazl delivery info
  */
-function PaazlShippingMethodModel(paazlDeliveryInfo) {
+function PaazlShippingMethodModel (paazlDeliveryInfo) {
     var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
     this.ID = paazlHelper.getShippingMethodID();
 

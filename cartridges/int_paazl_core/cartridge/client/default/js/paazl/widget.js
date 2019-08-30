@@ -21,19 +21,19 @@ var paazlID = $(selectors.paazlID).data(attributes.paazlID);
 function updatePaazlWidget(methodName, e) {
     var $el = $(e.target);
 
-  // Stop if the jQuery element does not exist
+    // Stop if the jQuery element does not exist
     if (!$el[0]) {
         return;
     }
 
     var fieldValue = $el.val();
 
-  // Stop if there is no value
+    // Stop if there is no value
     if (fieldValue.length === 0) {
         return;
     }
 
-  // Call the method with the value
+    // Call the method with the value
     PaazlCheckout[methodName](fieldValue);
 }
 
@@ -41,11 +41,10 @@ function updatePaazlWidget(methodName, e) {
  * @public onUpdateShippingMethods
  *
  * @param {Event} evt - an Ajax Success Event
- * @param {JSON} res - a JSON objects
+ * @param {JSON} resp - a JSON object
  */
 function onUpdateShippingMethods(evt, resp) {
     if ('paazlWidgetInit' in window && undefined !== (window.paazlWidgetInit) && window.paazlWidgetInit !== null) {
-
         // SFRA
         if (resp && resp.shipping && resp.shipping.selectedShippingMethod && resp.shipping.selectedShippingMethod.ID === paazlID) {
             var paazlCheckoutOption = selectors.paazlCheckoutOptionPrefix + paazlID;
@@ -64,12 +63,12 @@ function onUpdateShippingMethods(evt, resp) {
             $(selectors.address.postalCode).trigger(events.change);
             return;
         }
-        
+
         // SG
         var paazlWrapper = $(selectors.paazlWrapper);
         if (resp && resp.shipping && resp.shipping.shippingMethodID && resp.shipping.shippingMethodID === paazlID) {
             paazlWrapper.removeClass(selectors.hide);
-            
+
             if (paazlWrapper.children().length === 0) {
                 PaazlCheckout.init(paazlWidgetInit);
             }
@@ -91,7 +90,7 @@ function assignListeners(scope) {
     scope.on(events.change, selectors.address.country, updatePaazlWidget.bind(null, 'setConsigneeCountryCode'));
     scope.on(events.change, selectors.address.postalCode, updatePaazlWidget.bind(null, 'setConsigneePostalCode'));
     $(selectors.body).on(events.updateShippingMethods, onUpdateShippingMethods);
-    $(document).on(events.click, selectors.paazlButtons, function preventSubmit (e) {
+    $(document).on(events.click, selectors.paazlButtons, function preventSubmit(e) {
         e.preventDefault();
     });
 }

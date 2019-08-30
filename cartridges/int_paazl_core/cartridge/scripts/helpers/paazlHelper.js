@@ -49,7 +49,7 @@ function getShippingMethodID() {
 /**
  * Get Paazl fall back shipping option
  * @param {Object} countryCode - the basket shipping countryCode
- * @param {String} currencyCode - the basket currencyCode
+ * @param {string} currencyCode - the basket currencyCode
  * @returns{Object} fall back Shipping option or null
  */
 function getPaazlFallBackOption(countryCode, currencyCode) {
@@ -109,14 +109,12 @@ function getSelectedShippingOption(basket) {
         if (selectedShippingMethod.noDeliveryTypeInfo || selectedShippingMethod.noSippingOptionObj || selectedShippingMethod.noPickupLocationObj) {
             return false;
         }
-    } else {
-        if (basket.defaultShipment && basket.defaultShipment.shippingAddress && basket.defaultShipment.shippingAddress.countryCode && !empty(basket.defaultShipment.shippingAddress.countryCode.value)) {
-            var countryCode = basket.defaultShipment.shippingAddress.countryCode.value.toUpperCase();
-            var currencyCode = basket.currencyCode || session.currency.currencyCode;
-            selectedShippingMethod = getPaazlFallBackOption(countryCode, currencyCode);
-            if (!selectedShippingMethod) {
-                return false;
-            }
+    } else if (basket.defaultShipment && basket.defaultShipment.shippingAddress && basket.defaultShipment.shippingAddress.countryCode && !empty(basket.defaultShipment.shippingAddress.countryCode.value)) {
+        var countryCode = basket.defaultShipment.shippingAddress.countryCode.value.toUpperCase();
+        var currencyCode = basket.currencyCode || session.currency.currencyCode;
+        selectedShippingMethod = getPaazlFallBackOption(countryCode, currencyCode);
+        if (!selectedShippingMethod) {
+            return false;
         }
     }
     try {
@@ -295,9 +293,9 @@ function getPaazlStatus(shipment) {
  * @param {dw.order.Basket} basket - the current basket
  */
 function resetSelectedShippingOption(basket) {
-    if (basket.defaultShipment && basket.defaultShipment.custom.paazlDeliveryInfo){
+    if (basket.defaultShipment && basket.defaultShipment.custom.paazlDeliveryInfo) {
         Transaction.wrap(function () {
-            basket.defaultShipment.custom.paazlDeliveryInfo = null;
+            basket.defaultShipment.custom.paazlDeliveryInfo = null; // eslint-disable-line no-param-reassign
         });
     }
 }

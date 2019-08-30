@@ -9,19 +9,19 @@ var paazlHelper = require('~/cartridge/scripts/helpers/paazlHelper');
  */
 function getCheckoutService() {
     /**
-     * Implement service callbacks
-     *
-     * @returns {Object} service callback
-     * @param {dw.order.Order} order - the order being exported
-     * @private
-     */
+      * Implement service callbacks
+      *
+      * @returns {Object} service callback
+      * @param {dw.order.Order} order - the order being exported
+      * @private
+      */
     function callback() {
         /**
-         * Creates the request
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} params Required fields for service call
-         */
+          * Creates the request
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} params Required fields for service call
+          */
         function createRequest(svc, params) {
             var paazlAPIKey = Site.current.getCustomPreferenceValue('paazlAPIKey');
             var paazlAPISecret = Site.current.getCustomPreferenceValue('paazlAPISecret');
@@ -40,12 +40,12 @@ function getCheckoutService() {
         }
 
         /**
-         * Parse the response
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} response Service response
-         * @returns {Object} Service response
-         */
+          * Parse the response
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} response Service response
+          * @returns {Object} Service response
+          */
         function parseResponse(svc, response) {
             var selectedOptionResponse = {};
             selectedOptionResponse.success = true;
@@ -133,11 +133,11 @@ function getCheckoutService() {
     }
 
     /**
-     * Call checkout Paazl REST API service
-     *
-     * @param {Object} params Required fields for service call
-     * @returns{dw.svc.Result} Service Result
-     */
+      * Call checkout Paazl REST API service
+      *
+      * @param {Object} params Required fields for service call
+      * @returns{dw.svc.Result} Service Result
+      */
     function getSelectedOption(params) {
         var output = { success: false };
         try {

@@ -9,7 +9,6 @@ server.extend(module.superModule);
 server.append(
     'SubmitShipping', function (req, res, next) {
         var BasketMgr = require('dw/order/BasketMgr');
-        var Transaction = require('dw/system/Transaction');
 
         var viewData = res.getViewData();
         if (viewData.error) { return next(); }
@@ -29,7 +28,7 @@ server.append(
                 viewData.paazlShippingMethod = paazlShippingMethod;
             } else {
                 viewData.error = true;
-            } 
+            }
         }
 
         res.setViewData(viewData);

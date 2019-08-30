@@ -9,20 +9,20 @@ var Site = require('dw/system/Site');
  */
 function getTokenService() {
     /**
-     * Implement service callbacks
-     *
-     * @returns {Object} service callback
-     * @param {dw.order.Order} order - the order being exported
-     * @private
-     */
+      * Implement service callbacks
+      *
+      * @returns {Object} service callback
+      * @param {dw.order.Order} order - the order being exported
+      * @private
+      */
     function callback() {
         /**
-         * Creates the request
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} params Required fields for service call
-         * @returns {Object} HTTP request
-         */
+          * Creates the request
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} params Required fields for service call
+          * @returns {Object} HTTP request
+          */
         function createRequest(svc, params) {
             var paazlAPIKey = Site.current.getCustomPreferenceValue('paazlAPIKey');
             var paazlAPISecret = Site.current.getCustomPreferenceValue('paazlAPISecret');
@@ -43,12 +43,12 @@ function getTokenService() {
         }
 
         /**
-         * Parse the response
-         *
-         * @param {dw.svc.HTTPService} svc HTTP service
-         * @param {Object} response Service response
-         * @returns {Object} Service response
-         */
+          * Parse the response
+          *
+          * @param {dw.svc.HTTPService} svc HTTP service
+          * @param {Object} response Service response
+          * @returns {Object} Service response
+          */
         function parseResponse(svc, response) {
             var output = {};
             output.success = true;
@@ -87,11 +87,11 @@ function getTokenService() {
     }
 
     /**
-     * Call service.paazl.getToken service
-     *
-     * @param {Object} params Required field for service call
-     * @returns{dw.svc.Result} Service Result
-     */
+      * Call service.paazl.getToken service
+      *
+      * @param {Object} params Required field for service call
+      * @returns{dw.svc.Result} Service Result
+      */
     function getToken(params) {
         var output = { success: true };
         try {

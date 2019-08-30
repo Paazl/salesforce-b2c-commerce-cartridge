@@ -14,7 +14,7 @@ Object.keys(base).forEach(function (key) {
  * @param {Object} fraudDetectionStatus - an Object returned by the fraud detection hook
  * @returns {Object} an error object
  */
-function placeOrder(order, fraudDetectionStatus) {
+function placeOrder (order, fraudDetectionStatus) {
     var result = base.placeOrder(order, fraudDetectionStatus);
     try {
         if (result.error === false) {

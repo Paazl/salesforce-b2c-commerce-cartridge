@@ -1,0 +1,11 @@
+cartridges/app_storefront_base/
+cartridges/app_storefront_controllers/
+cartridges/app_storefront_core/
+
+cartridges/int_paazl_sfra/cartridge/static/
+cartridges/int_paazl_core/cartridge/static/
+cartridges/Gruntfile.js
+cartridges/gulpfile.js
+coverage/
+doc/
+bin/

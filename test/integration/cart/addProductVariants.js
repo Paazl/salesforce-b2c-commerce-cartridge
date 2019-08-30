@@ -139,21 +139,22 @@ describe('Add Product variants to cart', function () {
                 var bodyAsJson = JSON.parse(response4.body);
                 var expectedTotal = {
                     'subTotal': '$381.97',
-                    'grandTotal': '$527.06',
-                    'totalTax': '$25.10',
-                    'totalShippingCost': '$119.99'
+                    'grandTotal': '$401.07',
+                    'totalTax': '$19.10',
+                    'totalShippingCost': '$0.00'
                 };
 
                 var expectedShippingMethod = {
-                    'selectedShippingMethod': '001',
+                    'selectedShippingMethod': 'paazl_USD',
                     'shippingMethods': [
                         {
-                            'displayName': 'Ground',
-                            'ID': '001',
-                            'estimatedArrivalTime': '7-10 Business Days',
+                            'displayName': 'Paazl USD',
+                            'description': null,
+                            'estimatedArrivalTime': null,
+                            'ID': 'paazl_USD',
                             'default': true,
                             'selected': true,
-                            'shippingCost': '$9.99'
+                            'shippingCost': '$0.00'
                         }
                     ]
                 };

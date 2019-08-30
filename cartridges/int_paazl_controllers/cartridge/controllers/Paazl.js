@@ -10,13 +10,12 @@
 
 /* Script Modules */
 var guard = require('*/cartridge/scripts/guard');
-var app = require('*/cartridge/scripts/app');
 
 /**
  * Address completion
  * For Dutch addresses, Get the Street name and City based on postcode and street number
  */
-function addressNL() {
+function addressNL () {
     var addressService = require('*/cartridge/scripts/services/SOAP/paazlAddressValidation');
     var addressValidationObj = {};
 
@@ -68,7 +67,7 @@ function addressNL() {
             }
         };
     } else {
-        addressValidationResponse = {
+        addressValidationResponse = { // eslint-disable-line no-use-before-define
             success: false,
             errorMessage: result.message
         };
@@ -76,7 +75,7 @@ function addressNL() {
 
     response.setContentType('application/json');
 
-    let addressValidationResponse = JSON.stringify(addressValidationObj);
+    var addressValidationResponse = JSON.stringify(addressValidationObj);
     response.writer.print(addressValidationResponse);
 }
 

@@ -10,9 +10,9 @@ var selectors = constants.selectors;
  */
 function populateAddressSummary(parentSelector, address) {
     $.each(address, function (attr) {
-      var val = address[attr];
-      $('.' + attr, parentSelector).text(val || '');
-  });
+        var val = address[attr];
+        $('.' + attr, parentSelector).text(val || '');
+    });
 }
 
 /**
@@ -22,28 +22,28 @@ function populateAddressSummary(parentSelector, address) {
 function assignListeners() {
     $(document).ajaxSuccess(function (event, xhr, settings) {
     // Stop if this is not an ajax call for the shipment submitting or payment submitting
-      if (settings.url.indexOf('CheckoutShippingServices-SubmitShipping') === -1) {
-        if (settings.url.indexOf('CheckoutServices-SubmitPayment') === -1) {
-          return;
-      }
-    }
+        if (settings.url.indexOf('CheckoutShippingServices-SubmitShipping') === -1) {
+            if (settings.url.indexOf('CheckoutServices-SubmitPayment') === -1) {
+                return;
+            }
+        }
 
-      var data = xhr.responseJSON;
+        var data = xhr.responseJSON;
 
-    // Stop if the shipping method is not Paazl
-      if (!(data && data.paazlStatus && data.paazlStatus.active && data.paazlShippingMethod)) {
-        return;
-    }
+        // Stop if the shipping method is not Paazl
+        if (!(data && data.paazlStatus && data.paazlStatus.active && data.paazlShippingMethod)) {
+            return;
+        }
 
-    // Stop if the pickupLocation and/or it's address is not available
-      if (!(data.paazlShippingMethod.pickupLocation && data.paazlShippingMethod.pickupLocation.address)) {
-        return;
-    }
+        // Stop if the pickupLocation and/or it's address is not available
+        if (!(data.paazlShippingMethod.pickupLocation && data.paazlShippingMethod.pickupLocation.address)) {
+            return;
+        }
 
-    // Populare the address summary on the billing page with the pickuplocation address.
-      var pickupAddress = data.paazlShippingMethod.pickupLocation.address;
-      populateAddressSummary(selectors.address.summary, pickupAddress);
-  });
+        // Populare the address summary on the billing page with the pickuplocation address.
+        var pickupAddress = data.paazlShippingMethod.pickupLocation.address;
+        populateAddressSummary(selectors.address.summary, pickupAddress);
+    });
 }
 
 module.exports = {

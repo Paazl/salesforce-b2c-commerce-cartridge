@@ -7,30 +7,30 @@ var logger = require('dw/system/Logger').getLogger('paazlAPI', 'paazl');
  */
 function addressService() {
     /**
-     * Implement service callbacks
-     *
-     * @returns {Object} service callback
-     * @param {dw.order.Order} order - the order being exported
-     * @private
-     */
+      * Implement service callbacks
+      *
+      * @returns {Object} service callback
+      * @param {dw.order.Order} order - the order being exported
+      * @private
+      */
     function callback() {
         /**
-         * SOAP WSDL init
-         *
-         * @returns {dw.svc.SOAPService} Service
-         */
+          * SOAP WSDL init
+          *
+          * @returns {dw.svc.SOAPService} Service
+          */
         function initServiceClient() {
             this.webReference = webreferences2.orderRequest;// eslint-disable-line no-undef
             return this.webReference.getDefaultService();
         }
 
         /**
-         * Creates the actual SOAP request
-         *
-         * @param {dw.svc.SOAPService} svc SOAP service
-         * @param {Object} params Required fields for service call
-         * @returns {Object} SOAP request
-         */
+          * Creates the actual SOAP request
+          *
+          * @param {dw.svc.SOAPService} svc SOAP service
+          * @param {Object} params Required fields for service call
+          * @returns {Object} SOAP request
+          */
         function createRequest(svc, params) {
             var helper = require('~/cartridge/scripts/helpers/paazlHelper');
             var orderRequest = helper.addressRequest(this.webReference, params);
@@ -38,24 +38,24 @@ function addressService() {
         }
 
         /**
-         * Executes the SOAP request
-         *
-         * @param {dw.svc.SOAPService} svc SOAP service
-         * @param {Object} request request
-         * @returns {Object} SOAP
-         */
+          * Executes the SOAP request
+          *
+          * @param {dw.svc.SOAPService} svc SOAP service
+          * @param {Object} request request
+          * @returns {Object} SOAP
+          */
         function execute(svc, request) {
             return svc.serviceClient.address(request);
         }
 
 
         /**
-         * Executes the SOAP request
-         *
-         * @param {dw.svc.SOAPService} svc SOAP service
-         * @param {Object} response Service response
-         * @returns {Object} Service response
-         */
+          * Executes the SOAP request
+          *
+          * @param {dw.svc.SOAPService} svc SOAP service
+          * @param {Object} response Service response
+          * @returns {Object} Service response
+          */
         function parseResponse(svc, response) {
             var result = {};
             if (response.errorOrAddress && response.errorOrAddress instanceof webreferences2.orderRequest.com.paazl.schemas.matrix.ErrorType) { // eslint-disable-line no-undef
@@ -90,11 +90,11 @@ function addressService() {
     }
 
     /**
-     * Call service.paazl.orderrequest service
-     *
-     * @param {Object} params Required fields for service call
-     * @returns{dw.svc.Result} Service Result
-     */
+      * Call service.paazl.orderrequest service
+      *
+      * @param {Object} params Required fields for service call
+      * @returns{dw.svc.Result} Service Result
+      */
     function address(params) {
         var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
         var serviceID = 'service.paazl.orderrequest.address';
