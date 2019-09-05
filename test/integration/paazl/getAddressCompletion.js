@@ -43,7 +43,6 @@ describe('Get address comletion', function () {
     });
 
     var action = 'Paazl-AddressNL';
-    var message = 'Product added to cart';
     var addProd = '/Paazl-AddressNL';
 
     var myRequest = {
@@ -97,7 +96,7 @@ describe('Get address comletion', function () {
     });
 
     it('should return an error because of unvalid zipcode/housenumber combination', function () {
-        myRequest.url = urlEndPoint + '?postalCode=1234RC' + '&houseNbr=' + queryParams.houseNbr + '&country=' + queryParams.country;
+        myRequest.url = urlEndPoint + '?postalCode=1234RC&houseNbr=' + queryParams.houseNbr + '&country=' + queryParams.country;
 
         return request(myRequest)
         .then(function (response) {

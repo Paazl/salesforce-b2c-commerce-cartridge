@@ -30,7 +30,7 @@ function getAddress(orderAddress) {
     address.province = orderAddress.stateCode || '';
     address.street = orderAddress.address1;
     var streetLines = [];
-    var streetLine = orderAddress.address1
+    var streetLine = orderAddress.address1;
     streetLines.push(streetLine);
     address.streetLines = streetLines;
 
