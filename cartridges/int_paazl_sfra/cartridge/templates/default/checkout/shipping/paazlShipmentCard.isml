@@ -27,6 +27,7 @@
                 <isif condition="${pdict.isPaazlUniqueShippingOption}">
                     <isif condition="${pdict.paazlStatus && pdict.paazlStatus.active}">
                         <div id="paazl-checkout"></div>
+                        <div class="shipping-method-list" data-action-url="${URLUtils.https('CheckoutShippingServices-UpdateShippingMethodsList')}"></div>
                     </isif>
                 <iselse/>
                     <isinclude template="checkout/shipping/paazlShippingMethod" />
