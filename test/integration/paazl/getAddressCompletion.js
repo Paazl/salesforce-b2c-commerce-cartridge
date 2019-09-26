@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 var request = require('request-promise');
 var config = require('../it.config');
+var baseUrl = 'https://' + config.baseUrl + '/on/demandware.store/Sites-RefArch-Site/en_US';
 var chai = require('chai');
 var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
@@ -25,7 +26,7 @@ describe('Get address comletion', function () {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         };
-        myRequest.url = config.baseUrl + '/Cart-AddProduct';
+        myRequest.url = baseUrl + '/Cart-AddProduct';
         myRequest.form = {
             pid: variantPid1,
             quantity: qty1
@@ -61,7 +62,7 @@ describe('Get address comletion', function () {
         country: 'NL'
     };
 
-    var urlEndPoint = config.baseUrl + addProd;
+    var urlEndPoint = baseUrl + addProd;
 
     it('should return address completion', function () {
         // The myRequest object will be reused through out this file. The 'jar' property will be set once.

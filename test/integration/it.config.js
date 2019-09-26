@@ -5,7 +5,7 @@ var argv = minimist(process.argv.slice(2));
 var getConfig = require('@tridnguyen/config');
 
 var opts = Object.assign({}, getConfig({
-    baseUrl: 'https://paazl01-tech-prtnr-eu02-dw.demandware.net/on/demandware.store/Sites-RefArch-Site/en_US/',
+    baseUrl: global.baseUrl,
     suite: '*',
     reporter: 'spec',
     timeout: 60000,
