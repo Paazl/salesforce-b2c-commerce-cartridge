@@ -5,7 +5,7 @@ var sinon = require('sinon');
 var templateStub = sinon.stub();
 var StoreModel = require('../models/store');
 
-var StoresModel = proxyquire('../../../cartridges/app_storefront_base/cartridge/models/stores', {
+var StoresModel = proxyquire('../../../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/models/stores', {
     '*/cartridge/models/store': StoreModel,
     'dw/util/HashMap': function () {
         return {
@@ -76,7 +76,7 @@ templateStub.returns({
 
 
 function proxyModel() {
-    return proxyquire('../../../cartridges/app_storefront_base/cartridge/scripts/helpers/storeHelpers', {
+    return proxyquire('../../../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/scripts/helpers/storeHelpers', {
         '*/cartridge/models/store': StoreModel,
         '*/cartridge/models/stores': StoresModel,
         'dw/catalog/StoreMgr': storeMgr,

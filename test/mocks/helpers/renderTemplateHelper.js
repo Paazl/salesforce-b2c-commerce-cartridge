@@ -13,7 +13,7 @@ templateStub.returns({
 });
 
 function proxyModel() {
-    return proxyquire('../../../cartridges/app_storefront_base/cartridge/scripts/renderTemplateHelper', {
+    return proxyquire('../../../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/scripts/renderTemplateHelper', {
         'dw/util/Template': templateStub,
         'dw/util/HashMap': function () {
             return {

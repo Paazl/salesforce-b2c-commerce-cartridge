@@ -65,7 +65,7 @@ var order = {
 };
 
 function proxyModel() {
-    return proxyquire('../../../cartridges/app_storefront_base/cartridge/scripts/checkout/checkoutHelpers', {
+    return proxyquire('../../../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/scripts/checkout/checkoutHelpers', {
         'server': server,
         '*/cartridge/scripts/util/collections': collections,
         '*/cartridge/scripts/helpers/basketCalculationHelpers': { calculateTotals: function () {} },
@@ -89,7 +89,7 @@ function proxyModel() {
 
         '*/cartridge/scripts/renderTemplateHelper': renderTemplateHelper,
         '*/cartridge/scripts/checkout/shippingHelpers': shippingHelpers,
-        '*/cartridge/scripts/formErrors': require('../../../cartridges/app_storefront_base/cartridge/scripts/formErrors')
+        '*/cartridge/scripts/formErrors': require('../../../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/scripts/formErrors')
     });
 }
 
