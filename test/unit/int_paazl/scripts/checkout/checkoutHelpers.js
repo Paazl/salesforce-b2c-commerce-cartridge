@@ -83,6 +83,8 @@ describe('checkoutHelpers', function () {
             assert.isFalse(result.error);
             assert.equal(order.defaultShipment.shippingAddress.postalCode, '1087GC');
             assert.equal(order.defaultShipment.custom.paazlSelectedShippingMethod, 'carrierDescription - name');
+            assert.isTrue(order.custom.notSavedInPaazl);
+            assert.equal(order.custom.failedAttempts, 0);
         });
 
         it('should return result with error = true when exception is thrown', function () {

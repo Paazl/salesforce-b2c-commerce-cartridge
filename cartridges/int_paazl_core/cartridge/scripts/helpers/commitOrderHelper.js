@@ -7,12 +7,12 @@ var Logger = require('dw/system/Logger');
  */
 function getName(order) {
     var name = '';
-    if (order.customerName) {
+    if (order.customerName && order.customerName.trim() !== '') {
         return order.customerName;
-    } else if (order.billingAddress) {
-        return order.billingAddress.fullName;
     } else if (order.defaultShipment.shippingAddress) {
         return order.defaultShipment.shippingAddress.fullName;
+    } else if (order.billingAddress) {
+        return order.billingAddress.fullName;
     }
     return name;
 }
@@ -39,7 +39,10 @@ function getAddress(orderAddress) {
     var regex = new RegExp('^([0-9]+)[\\s-]?([A-Z0-9]+)?');
     var parts = regex.exec(houseNumberAndExt);
     var houseNr = parts && parts.length > 0 ? parts[1] : houseNumberAndExt;
-    address.houseNumber = houseNr || '';
+    if (empty(houseNr) || isNaN(houseNr)) {
+        houseNr = '0';
+    }
+    address.houseNumber = houseNr;
     address.houseNumberExtension = parts && parts.length > 1 ? parts[2] : '';
 
     return address;

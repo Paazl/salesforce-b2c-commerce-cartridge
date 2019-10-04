@@ -29,11 +29,19 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="failedAttempts">
+                <display-name xml:lang="x-default">Number of failed attempts</display-name>
+                <description xml:lang="x-default">Number of failed attempts to commit Order into Paazl.</description>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>true</externally-managed-flag>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
-            <attribute-group group-id="custom">
-                <display-name xml:lang="x-default">Custom</display-name>
+            <attribute-group group-id="Paazl">
+                <display-name xml:lang="x-default">Paazl</display-name>
                 <attribute attribute-id="notSavedInPaazl"/>
+                <attribute attribute-id="failedAttempts"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
@@ -249,6 +257,14 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>20</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlCommitOrderMaxAttempts">
+                <display-name xml:lang="x-default">Max Attempts to Commit Order in Paazl</display-name>
+                <description xml:lang="x-default">The maximum attempts to try to commit an order into Paazl system.</description>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>3</default-value>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Paazl">
@@ -270,6 +286,7 @@
                 <attribute attribute-id="paazlWidgetCustomizedStyle"/>
                 <attribute attribute-id="paazlDefaultShippingOption"/>
                 <attribute attribute-id="paazlDefaultSenderAddress"/>
+                <attribute attribute-id="paazlCommitOrderMaxAttempts"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

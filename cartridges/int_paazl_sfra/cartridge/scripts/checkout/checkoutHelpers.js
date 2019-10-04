@@ -24,6 +24,13 @@ function placeOrder (order, fraudDetectionStatus) {
             if (paazlStatus.active) {
                 // If Paazl is active update the order shipping address with paazl shiiping address - only in case of pickup point delivery
                 paazlHelper.updateShipment(order);
+
+                // Set Order custom attribute 'notSavedInPaazl' to true, so the order will process by a job to be committed into Paazl
+                var Transaction = require('dw/system/Transaction');
+                Transaction.wrap(function () {
+                    order.custom.notSavedInPaazl = true;
+                    order.custom.failedAttempts = 0;
+                });
             }
         }
     } catch (e) {

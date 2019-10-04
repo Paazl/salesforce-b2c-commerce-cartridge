@@ -35,7 +35,9 @@ function process(args) {
     if (args.disabled) {
         return new Status(Status.OK, 'DISABLED');
     }
-    var query = 'custom.notSavedInPaazl = true';
+    var Site = require('dw/system/Site');
+    var maxAttempts = Site.getCurrent().getCustomPreferenceValue('paazlCommitOrderMaxAttempts');
+    var query = 'custom.notSavedInPaazl = true AND custom.failedAttempts < ' + maxAttempts;
     OrderMgr.processOrders(orderCallback, query);
     if (!overallSuccess) {
         return new Status(Status.ERROR, 'ERROR');

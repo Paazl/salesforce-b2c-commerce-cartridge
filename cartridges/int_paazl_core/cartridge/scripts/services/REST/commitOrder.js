@@ -91,12 +91,14 @@ function commitOrderService() {
         var output = { success: false };
         var apiOrder = params.order;
         var orderNo = apiOrder.orderNo;
+        var maxAttempts = Site.getCurrent().getCustomPreferenceValue('paazlCommitOrderMaxAttempts');
+        var failedAttempts = apiOrder.custom.failedAttempts || 0;
+
         try {
             var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
             var serviceID = 'service.paazl.rest.commitOrder';
             var commitOrderSvc = LocalServiceRegistry.createService(serviceID, callback());
             var result = commitOrderSvc.call({ order: apiOrder });
-
             if (result.ok) {
                 output = result.object;
                 Transaction.wrap(function () {
@@ -104,6 +106,14 @@ function commitOrderService() {
                     apiOrder.addNote('Paazl-Commit-Order', 'Order successfully committed in paazl system');
                 });
             } else {
+                failedAttempts++;
+                Transaction.wrap(function () {
+                    apiOrder.custom.failedAttempts = failedAttempts;
+                    if (failedAttempts === maxAttempts) {
+                        var note = 'Committing this order in paazl system has failed ' + failedAttempts + ' times. This order won\'t be processed for Paazl commit order anymore';
+                        apiOrder.addNote('Paazl-Commit-Order', note);
+                    }
+                });
                 var errorMessage = result.errorMessage;
                 if (errorMessage) {
                     Logger.error('Error in commit order request to paazl for orderNo {0}. Error message: {1}.', orderNo, errorMessage);
