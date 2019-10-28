@@ -58,16 +58,17 @@
 </div></div></li><li><p class="auto-cursor-target"><strong><span style="color: rgb(0,0,0);">paazlDefaultShippingOption </span></strong><span style="color: rgb(0,0,0);"><span style="color: rgb(0,51,102);"><span style="color: rgb(0,51,102);"><span style="color: rgb(0,51,102);"><span style="color: rgb(0,51,102);"><span style="color: rgb(0,51,102);"><span style="color: rgb(0,0,0);">allows you to set a fallback shipping option per country to use in case Paazl isn't responding. The format is JSON and the syntax should look like this:</span></span></span></span></span></span></span></p><div class="preformatted panel" style="border-width: 1px;"><div class="preformattedContent panelContent">
 <pre>{  
    &quot;NL&quot;:{  
-      &quot;carrier&quot;:&quot;PostNL&quot;,
+      &quot;carrierName&quot;:&quot;TNT&quot;,
+      &quot;carrierDescription&quot;:&quot;PostNL&quot;,
       &quot;name&quot;:&quot;AVG Home delivery&quot;,
       &quot;cost&quot;:{&quot;EUR&quot;:12.45, &quot;USD&quot;: 14.20}
    },
   &quot;BE&quot;:{  
-      &quot;carrier&quot;:&quot;DHL&quot;,
+      &quot;carrierName&quot;:&quot;DHL&quot;,
       &quot;name&quot;:&quot;Express delivery&quot;
    },
    &quot;*&quot;:{  
-      &quot;carrier&quot;:&quot;UPS&quot;,
+      &quot;carrierName&quot;:&quot;UPS&quot;,
       &quot;name&quot;:&quot;UPS_SAVER&quot;
    }
 }</pre>

@@ -56,10 +56,17 @@ function getPaazlFallBackOption(countryCode, currencyCode) {
     var fallbackOption = {};
     var paazlDefaultShippingOptions = Site.current.getCustomPreferenceValue('paazlDefaultShippingOption');
     if (!empty(paazlDefaultShippingOptions)) {
-        var defaultShippingOptions = JSON.parse(paazlDefaultShippingOptions);
-        var countryShippingOption = defaultShippingOptions[countryCode] || defaultShippingOptions['*'];
+        var defaultShippingOptions = {};
+        try {
+            defaultShippingOptions = JSON.parse(paazlDefaultShippingOptions);
+        } catch (error) {
+            Logger.error('Error when parsing the Site custom preferences attribute `paazlDefaultShippingOption`.', error);
+        }
+        var countryShippingOption = defaultShippingOptions[countryCode] || defaultShippingOptions[countryCode.toLowerCase()] || defaultShippingOptions['*'];
         if (countryShippingOption) {
-            fallbackOption.carrierDescription = countryShippingOption.carrier;
+            fallbackOption.identifier = countryShippingOption.identifier;
+            fallbackOption.carrierName = countryShippingOption.carrierName;
+            fallbackOption.carrierDescription = countryShippingOption.carrierDescription;
             fallbackOption.name = countryShippingOption.name;
             fallbackOption.deliveryType = 'HOME';
             fallbackOption.cost = 0;

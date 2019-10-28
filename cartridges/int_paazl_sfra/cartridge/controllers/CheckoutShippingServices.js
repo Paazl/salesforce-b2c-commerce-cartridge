@@ -9,12 +9,18 @@ server.extend(module.superModule);
 server.append(
     'SubmitShipping', function (req, res, next) {
         var BasketMgr = require('dw/order/BasketMgr');
+        var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 
         var viewData = res.getViewData();
         if (viewData.error) { return next(); }
 
         var currentBasket = BasketMgr.getCurrentBasket();
         if (!currentBasket) { return next(); }
+
+        COHelpers.copyShippingAddressToShipment(
+            viewData,
+            currentBasket.defaultShipment
+        );
 
         // Check if Paazl is enable and selected as shipping method
         var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
