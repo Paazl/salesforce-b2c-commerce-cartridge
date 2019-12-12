@@ -7,6 +7,9 @@ var paazlHelper = require('../../../../mocks/int_paazl/helpers/paazlHelper');
 var lineItemCtnr = {
     custom: {
     },
+    setCustomerName: function (fullName) {
+        this.customerName = fullName;
+    },
     defaultShipment: {
         UUID: '1234-1234-1234-1234',
         setShippingMethod: function (shippingMethod) {

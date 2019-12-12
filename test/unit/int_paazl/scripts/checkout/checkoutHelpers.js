@@ -6,9 +6,14 @@ var mockSuperModule = require('../../../../mocks/mockModuleSuperModule');
 var baseCheckoutHelpers = require('../../../../mocks/helpers/checkoutHelpers');
 
 var order = {
+    custom: {
+    },
     setConfirmationStatus: function () {
     },
     setExportStatus: function () {
+    },
+    setCustomerName: function (fullName) {
+        this.customerName = fullName;
     },
     defaultShipment: {
         shippingMethodID: 'paazl_USD',
@@ -78,7 +83,7 @@ describe('checkoutHelpers', function () {
             errorMessage: ''
         };
 
-        it('should return result with error = false when no exception and update the shipment address', function () {
+        it('should return result with error = false when no exception and update the shipment address and set Paazl order custom attributes \'notSavedInPaazl\' and \'failedAttempts\'', function () {
             var result = checkoutHelpers.placeOrder(order, mockFraudDetectionStatus);
             assert.isFalse(result.error);
             assert.equal(order.defaultShipment.shippingAddress.postalCode, '1087GC');

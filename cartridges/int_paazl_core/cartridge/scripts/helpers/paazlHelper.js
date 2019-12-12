@@ -238,11 +238,10 @@ function getPaazlShippingModel(lineItemCtnr) {
 function updateShipment(order) {
     var shipment = order.defaultShipment;
     var paazlShippingModel = this.getPaazlShippingModel(order);
-
     var shippingAddress = shipment.getShippingAddress();
-
-    if (paazlShippingModel.shippingMethodType === 'PICKUP_LOCATION' && paazlShippingModel.shippingAddress != null) {
-        Transaction.wrap(function () {
+    Transaction.wrap(function () {
+        order.setCustomerName(shippingAddress.fullName);
+        if (paazlShippingModel.shippingMethodType === 'PICKUP_LOCATION' && paazlShippingModel.shippingAddress != null) {
             shipment.custom.paazlSelectedShippingMethod = paazlShippingModel.shippingMethodModel.displayName;
             var pickupPointAddress = paazlShippingModel.shippingAddress;
             shippingAddress.setFirstName('');
@@ -258,8 +257,8 @@ function updateShipment(order) {
             }
             shippingAddress.setCountryCode(pickupPointAddress.countryCode);
             shippingAddress.setPhone('');
-        });
-    }
+        }
+    });
 }
 
 /**

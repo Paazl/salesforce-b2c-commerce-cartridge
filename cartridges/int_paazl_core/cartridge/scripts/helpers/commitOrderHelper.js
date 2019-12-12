@@ -7,12 +7,12 @@ var Logger = require('dw/system/Logger');
  */
 function getName(order) {
     var name = '';
-    if (order.defaultShipment.shippingAddress) {
+    if (order.customerName && order.customerName.trim() !== '') {
+        return order.customerName;
+    } else if (order.defaultShipment.shippingAddress) {
         return order.defaultShipment.shippingAddress.fullName;
     } else if (order.billingAddress) {
         return order.billingAddress.fullName;
-    } else if (order.customerName && order.customerName.trim() !== '') {
-        return order.customerName;
     }
     return name;
 }
