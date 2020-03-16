@@ -7,8 +7,20 @@ var attributes = constants.attributes;
 var selectors = constants.selectors;
 var events = constants.events;
 
+var observer;
 var paazlID = $(selectors.paazlID).data(attributes.paazlID);
 
+/**
+ * @private widgetUpdatedCallback
+ * @description
+ *
+ * Callback method which is called right after the PaazlWidget
+ * has been updated.
+ */
+function widgetUpdatedCallback() {
+    $.spinner().stop();
+    observer.disconnect();
+}
 
 /**
   * @public updatePaazlWidget
@@ -32,6 +44,14 @@ function updatePaazlWidget(methodName, e) {
     if (fieldValue.length === 0) {
         return;
     }
+
+    $.spinner().start();
+    observer = new MutationObserver(widgetUpdatedCallback);
+    observer.observe(document.getElementById('paazl-checkout'), {
+        attributes: true,
+        childList: true,
+        subtree: true
+    });
 
     // Call the method with the value
     PaazlCheckout[methodName](fieldValue);
