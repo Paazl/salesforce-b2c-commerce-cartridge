@@ -75,6 +75,30 @@
 
     <type-extension type-id="SitePreferences">
         <custom-attribute-definitions>
+            <attribute-definition attribute-id="paazlWidgetLogLevel">
+                <display-name xml:lang="x-default">Paazl widget log level</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">NONE</display>
+                        <value>NONE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">ERROR</display>
+                        <value>ERROR</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">DEBUG</display>
+                        <value>DEBUG</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">TRACE</display>
+                        <value>TRACE</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlAPIKey">
                 <display-name xml:lang="x-default">Paazl API Key</display-name>
                 <type>string</type>
@@ -283,6 +307,7 @@
             <attribute-group group-id="Paazl">
                 <display-name xml:lang="x-default">Paazl</display-name>
                 <attribute attribute-id="paazlEnabled"/>
+                <attribute attribute-id="paazlWidgetLogLevel"/>
                 <attribute attribute-id="paazlAPIKey"/>
                 <attribute attribute-id="paazlAPISecret"/>
                 <attribute attribute-id="paazlWebshopID"/>

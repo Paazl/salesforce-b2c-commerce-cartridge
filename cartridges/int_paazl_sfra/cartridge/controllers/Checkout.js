@@ -13,6 +13,16 @@ server.append(
         var currentBasket = BasketMgr.getCurrentBasket();
         if (!currentBasket) {
             return next();
+        } else if (empty(currentBasket.defaultShipment.getShippingMethodID())) {
+            // in case none of shipping methods is selected, apply default shipping method
+            var cartHelper = require('*/cartridge/scripts/cart/cartHelpers');
+            var Transaction = require('dw/system/Transaction');
+            var basketCalculationHelpers = require('*/cartridge/scripts/helpers/basketCalculationHelpers');
+            Transaction.wrap(function () {
+                cartHelper.ensureAllShipmentsHaveMethods(currentBasket);
+    
+                basketCalculationHelpers.calculateTotals(currentBasket);
+            });
         }
         var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
 

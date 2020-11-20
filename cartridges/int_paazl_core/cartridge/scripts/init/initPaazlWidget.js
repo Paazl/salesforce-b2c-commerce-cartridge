@@ -109,6 +109,9 @@ function initPaazlWidget() {
         style = selectedStyle.displayValue;
     }
 
+    var logLevel = Site.current.getCustomPreferenceValue('paazlWidgetLogLevel');
+
+
     // This is a example of a possible initialization of the Widget
     // In this example few of the info are set dynamically or configurable using Site preferences and some are hard coded
     // But more options and settings are available if needed for you business.
@@ -145,7 +148,9 @@ function initPaazlWidget() {
         shippingOptionsLimit: paazlWidgetShippingOptionsLimit,
         pickupLocationsPageLimit: paazlWidgetPickupLocationsPageLimit,
         pickupLocationsLimit: paazlWidgetPickupLocationsLimit,
-        initialPickupLocations: paazlWidgetInitialPickupLocationsLimit
+        initialPickupLocations: paazlWidgetInitialPickupLocationsLimit,
+
+        logLevel: logLevel ? logLevel.value : "NONE"
     };
     return paazlWidget;
 }

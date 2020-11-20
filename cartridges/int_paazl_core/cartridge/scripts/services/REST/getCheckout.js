@@ -144,20 +144,22 @@ function getCheckoutService() {
             var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
             var serviceID = 'service.paazl.rest.getSelectedOption';
             var checkoutService = LocalServiceRegistry.createService(serviceID, callback());
+            Logger.info('Requesting selected shipping option from Paazl. Basket: {0}, apiToken: {1}', params.basket.getUUID(), params.basket.custom.paazlAPIToken);
             var result = checkoutService.call({ orderReference: params.basket.getUUID() });
 
             if (result.ok) {
                 output = result.object;
+                Logger.info('REST API Checkout - selected shipping option result. Basket: {0}', params.basket.getUUID());
             } else {
                 var errorMessage = result.errorMessage;
                 if (errorMessage) {
-                    Logger.error('Error requesting selected shipping option from Paazl. Error message: {0}.', errorMessage || '');
+                    Logger.error('Error requesting selected shipping option from Paazl. Error message: {0}, basket: {1}.', errorMessage || '', params.basket.getUUID());
                 } else {
-                    Logger.error('Error requesting selected shipping option from Paazl.');
+                    Logger.error('Error requesting selected shipping option from Paazl. Basket: {0}', params.basket.getUUID());
                 }
             }
         } catch (error) {
-            Logger.error('Error requesting selected shipping option from Paazl. Error: {0}.', error);
+            Logger.error('Error requesting selected shipping option from Paazl. Error: {0}, basket: {1}', error, params.basket.getUUID());
         }
 
         return output;
