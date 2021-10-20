@@ -31,5 +31,16 @@ server.append(
         next();
     });
 
+server.prepend(
+    'Get', function (req, res, next) {
+        var BasketMgr = require('dw/order/BasketMgr');
+        var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
+        var currentBasket = BasketMgr.getCurrentBasket();
+        var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+        var paazlShippingOption = paazlHelper.getSelectedShippingOption(currentBasket);
+
+        COHelpers.recalculateBasket(currentBasket);
+        next();
+    });
 
 module.exports = server.exports();

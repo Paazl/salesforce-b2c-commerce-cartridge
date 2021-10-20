@@ -150,7 +150,7 @@ function initPaazlWidget() {
         pickupLocationsLimit: paazlWidgetPickupLocationsLimit,
         initialPickupLocations: paazlWidgetInitialPickupLocationsLimit,
 
-        logLevel: logLevel ? logLevel.value : "NONE"
+        logLevel: logLevel ? logLevel.value : 'NONE'
     };
     return paazlWidget;
 }

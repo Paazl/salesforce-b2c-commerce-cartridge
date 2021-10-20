@@ -389,7 +389,7 @@ function handleShippingSettings(cart) {
  <div class="codeContent panelContent pdl hide-toolbar"> 
   <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence"> &lt;isif condition=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlEnabled') &amp;&amp; dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot; &gt;
     &lt;script type=&quot;text/javascript&quot; src=&quot;${dw.system.Site.current.getCustomPreferenceValue('paazlWidgetEndpoint')}&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;${URLUtils.staticURL('/js/paazl.js')}&quot; defer&gt;&lt;/script&gt;
+    &lt;script src=&quot;${URLUtils.staticURL('/js/paazlsgc.js')}&quot; defer&gt;&lt;/script&gt;
   &lt;/isif&gt;</pre> 
  </div>
 </div><p><br/></p><p>Open pt_checkout.isml, in the &lt;body&gt;&lt;/body&gt; section replace the &lt;div id=&quot;primary&quot; class=&quot;primary-content&quot;&gt; line just above &lt;isreplace/&gt; tag with this code:</p><div class="code panel pdl" style="border-width: 1px;">

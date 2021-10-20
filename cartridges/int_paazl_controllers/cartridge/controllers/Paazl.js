@@ -7,8 +7,10 @@
  * @module controllers/Cart
  */
 
+var Transaction = require('dw/system/Transaction');
 
 /* Script Modules */
+var app = require('*/cartridge/scripts/app');
 var guard = require('*/cartridge/scripts/guard');
 
 /**
@@ -80,6 +82,17 @@ function addressNL () {
 }
 
 
+function fetchSummary () {
+    var cart = app.getModel('Cart').get();
+    var currentBasket = cart.object;
+    var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+    var paazlShippingOption = paazlHelper.getSelectedShippingOption(currentBasket);
+    Transaction.wrap(function() {
+        cart.calculate();
+    });
+    app.getView({Basket: cart.object}).render('checkout/summaryOrderTotals');
+}
+
 /*
 * Module exports
 */
@@ -90,4 +103,5 @@ function addressNL () {
 /** For Dutch addresses, Get the Street name and City based on postcode and street number
  * @see {@link module:controllers/Paazl~AddressNL} */
 exports.AddressNL = guard.ensure(['get'], addressNL);
+exports.FetchSummary = guard.ensure(['get'], fetchSummary);
 
