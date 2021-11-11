@@ -92,15 +92,10 @@ function initPaazlWidget() {
     }
 
     var paazlWidgetDefaultTabs = Site.current.getCustomPreferenceValue('paazlWidgetDefaultTabs');
-
     var paazlWidgetShippingOptionsLimit = Site.current.getCustomPreferenceValue('paazlWidgetShippingOptionsLimit');
-
     var paazlWidgetPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsLimit');
-
     var paazlWidgetPickupLocationsPageLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsPageLimit');
-
     var paazlWidgetInitialPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetInitialPickupLocationsLimit');
-
     var nominatedDateEnabled = Site.current.getCustomPreferenceValue('paazlWidgetNominatedDateEnabled') || false;
 
     var style;
@@ -111,6 +106,9 @@ function initPaazlWidget() {
 
     var logLevel = Site.current.getCustomPreferenceValue('paazlWidgetLogLevel');
 
+    var sortingModelOrderBy = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy');
+    var paazlWidgetSortingModelSortOrder = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder');
+    var paazlWidgetSortingModelDistributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor');
 
     // This is a example of a possible initialization of the Widget
     // In this example few of the info are set dynamically or configurable using Site preferences and some are hard coded
@@ -139,8 +137,8 @@ function initPaazlWidget() {
         pickupEstimateDateFormat: 'dddd DD MMMM',
 
         sortingModel: {
-            orderBy: 'PRICE',
-            sortOrder: 'ASC'
+            orderBy: sortingModelOrderBy.value,
+            sortOrder: paazlWidgetSortingModelSortOrder.value
         },
 
         shipmentParameters: currentBasket ? getShipmentParameters(currentBasket) : {},
@@ -152,6 +150,11 @@ function initPaazlWidget() {
 
         logLevel: logLevel ? logLevel.value : 'NONE'
     };
+
+    if (paazlWidgetSortingModelDistributor) {
+        paazlWidget.sortingModel.distributor = paazlWidgetSortingModelDistributor;
+    }
+
     return paazlWidget;
 }
 

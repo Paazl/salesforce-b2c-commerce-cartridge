@@ -302,6 +302,50 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>10</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelDistributor">
+                <display-name xml:lang="x-default">Paazl Widget Distributor</display-name>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected at "Paazl Widget Order By"</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelOrderBy">
+                <display-name xml:lang="x-default">Paazl Widget Order By</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Price</display>
+                        <value>PRICE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Date</display>
+                        <value>DATE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Carrier</display>
+                        <value>CARRIER</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrder">
+                <display-name xml:lang="x-default">Paazl Widget Sort Order</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Ascending</display>
+                        <value>ASC</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Descending</display>
+                        <value>DESC</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Paazl">
@@ -325,6 +369,9 @@
                 <attribute attribute-id="paazlDefaultShippingOption"/>
                 <attribute attribute-id="paazlDefaultSenderAddress"/>
                 <attribute attribute-id="paazlCommitOrderMaxAttempts"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderBy"/>
+                <attribute attribute-id="paazlWidgetSortingModelDistributor"/>
+                <attribute attribute-id="paazlWidgetSortingModelSortOrder"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
