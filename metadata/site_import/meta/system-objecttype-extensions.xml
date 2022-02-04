@@ -55,6 +55,13 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlOriginalShippingAddress">
+                <display-name xml:lang="x-default">Original Paazl shipping address</display-name>
+                <description xml:lang="x-default">JSON object representing the original shipping address. This field will only be filled when a pickup point is selected.</description>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>true</externally-managed-flag>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlSelectedShippingMethod">
                 <display-name xml:lang="x-default">Paazl Selected Shipping Method</display-name>
                 <description xml:lang="x-default">The selected shipping method from paazl</description>
@@ -69,6 +76,7 @@
                 <display-name xml:lang="x-default">Paazl</display-name>
                 <attribute attribute-id="paazlDeliveryInfo"/>
                 <attribute attribute-id="paazlSelectedShippingMethod"/>
+                <attribute attribute-id="paazlOriginalShippingAddress"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

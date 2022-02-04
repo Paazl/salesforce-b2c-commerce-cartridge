@@ -110,7 +110,7 @@ function getCommitRequestPayload(order) {
     commitRequest.consignee.name = getName(order) || '';
     commitRequest.consignee.phone = shippingAddress.phone || billingAddress.phone || '';
     commitRequest.consignee.locale = order.customerLocaleID;
-    commitRequest.consignee.address = isPickUpLocation ? getAddress(billingAddress) : getAddress(shippingAddress);
+    commitRequest.consignee.address = isPickUpLocation && defaultShipment.custom.paazlOriginalShippingAddress ? getAddress(JSON.parse(defaultShipment.custom.paazlOriginalShippingAddress)) : getAddress(shippingAddress);
 
     commitRequest.description = '';
 

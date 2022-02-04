@@ -231,6 +231,36 @@ function getPaazlShippingModel(lineItemCtnr) {
 }
 
 /**
+ * @param {dw.order.Shipment} shipment - shipment
+ * @param {dw.order.OrderAddress} shippingAddress - Order address
+ */
+function persistOriginalShippingAddress(shipment, shippingAddress) {
+    var originalShippingAddress = {
+        address1: shippingAddress.address1,
+        address2: shippingAddress.address2,
+        city: shippingAddress.city,
+        companyName: shippingAddress.companyName,
+        countryCode: {
+            value: shippingAddress.countryCode ? shippingAddress.countryCode.value : ''
+        },
+        firstName: shippingAddress.firstName,
+        fullName: shippingAddress.fullName,
+        jobTitle: shippingAddress.jobTitle,
+        lastName: shippingAddress.lastName,
+        phone: shippingAddress.phone,
+        postalCode: shippingAddress.postalCode,
+        postBox: shippingAddress.postBox,
+        salutation: shippingAddress.salutation,
+        secondName: shippingAddress.secondName,
+        stateCode: shippingAddress.stateCode,
+        suffix: shippingAddress.suffix,
+        suite: shippingAddress.suite,
+        title: shippingAddress.title
+    };
+    shipment.custom.paazlOriginalShippingAddress = JSON.stringify(originalShippingAddress);
+}
+
+/**
  * In case of pickup point delivery, update the shipping address with pickup point address.
  *
  * @param {dw.order.LineItemCtnr} order - The current order to update
@@ -242,6 +272,8 @@ function updateShipment(order) {
     Transaction.wrap(function () {
         order.setCustomerName(shippingAddress.fullName);
         if (paazlShippingModel.shippingMethodType === 'PICKUP_LOCATION' && paazlShippingModel.shippingAddress != null) {
+            persistOriginalShippingAddress(shipment, shippingAddress);
+
             shipment.custom.paazlSelectedShippingMethod = paazlShippingModel.shippingMethodModel.displayName;
             var pickupPointAddress = paazlShippingModel.shippingAddress;
             shippingAddress.setFirstName('');
