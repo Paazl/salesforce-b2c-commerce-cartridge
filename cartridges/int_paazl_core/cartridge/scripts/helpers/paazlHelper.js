@@ -1,4 +1,4 @@
-var MessageDigest = require('dw/crypto/MessageDigest');
+var WeakMessageDigest = require('dw/crypto/WeakMessageDigest');
 var Site = require('dw/system/Site');
 var Logger = require('dw/system/Logger');
 var Transaction = require('dw/system/Transaction');
@@ -18,7 +18,7 @@ function addressRequest(webRef, params) {
     var paazlPassword = Site.current.getCustomPreferenceValue('paazlPassword');
 
     var securityMsg = webshopID + paazlPassword + params.paazlReferenceID;
-    var sha1 = new MessageDigest(MessageDigest.DIGEST_SHA_1);
+    var sha1 = new WeakMessageDigest(WeakMessageDigest.DIGEST_SHA_1);
     var encryptedSecurityMsg = sha1.digest(securityMsg);
 
     paazlAddressRequest.setWebshop(webshopID);

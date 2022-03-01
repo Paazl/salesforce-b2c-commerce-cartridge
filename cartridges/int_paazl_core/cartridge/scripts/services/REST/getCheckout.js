@@ -70,6 +70,7 @@ function getCheckoutService() {
                         selectedOptionResponse.identifier = shippingOption.identifier || '';
                         selectedOptionResponse.name = shippingOption.name || '';
                         selectedOptionResponse.deliveryDates = shippingOption.deliveryDates || {};
+                        selectedOptionResponse.estimatedDeliveryRange = shippingOption.estimatedDeliveryRange || {};
                     } else {
                         selectedOptionResponse.noSippingOptionObj = true;
                         Logger.error('REST API Checkout - No shippingOption Object return from Paazl.');
