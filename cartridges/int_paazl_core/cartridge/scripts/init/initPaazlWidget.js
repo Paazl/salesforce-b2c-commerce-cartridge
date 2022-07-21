@@ -2,6 +2,8 @@ var Site = require('dw/system/Site');
 var BasketMgr = require('dw/order/BasketMgr');
 var Locale = require('dw/util/Locale');
 
+var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+
 /**
  * Plain JS object that represents a Paazl widget ShipmentParameters object
  * @param {dw.order.Basket} basket - the current basket
@@ -12,20 +14,10 @@ function getShipmentParameters(basket) {
     var products = [];
     var totalWeight = 0;
     var totalPrice = 0;
+    var totalVolume = 0;
     if (productLineItems && productLineItems.length > 0) {
         productLineItems.toArray().forEach(function (productLineItem) {
-            var product = {
-                quantity: productLineItem.quantityValue,
-                price: productLineItem.adjustedPrice.value,
-                weight: 1 // here the weight is set to 1kg as an example. If weight is needed for you shop, this info should come from a Product custom attribute
-
-                // More parameters can be used for your shipment, example:
-                // length: 12, //The length in meters (m) of a single item in a shipment.
-                // width: 10, //The width in meters (m) of a single item in a shipment.
-                // height: 88, //The height in meters (m) of a single item in a shipment.
-                // volume: 1.33, //The volume of the goods ordered in cubic metres (m3) including packaging.
-
-            };
+            var product = paazlHelper.setProductShipmentParameters(productLineItem);
             products.push(product);
             totalPrice += productLineItem.adjustedPrice.value;
             totalWeight += product.weight;
@@ -38,6 +30,11 @@ function getShipmentParameters(basket) {
         numberOfGoods: basket.productQuantityTotal,
         goods: products
     };
+
+    var paazlSartMatrix = paazlHelper.getPaazlStartMatrixFromPromotion(basket);
+    if (paazlSartMatrix) {
+        shipmentParameters.startMatrix = paazlSartMatrix;
+    }
 
     return shipmentParameters;
 }
@@ -92,10 +89,15 @@ function initPaazlWidget() {
     }
 
     var paazlWidgetDefaultTabs = Site.current.getCustomPreferenceValue('paazlWidgetDefaultTabs');
+
     var paazlWidgetShippingOptionsLimit = Site.current.getCustomPreferenceValue('paazlWidgetShippingOptionsLimit');
+
     var paazlWidgetPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsLimit');
+
     var paazlWidgetPickupLocationsPageLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsPageLimit');
+
     var paazlWidgetInitialPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetInitialPickupLocationsLimit');
+
     var nominatedDateEnabled = Site.current.getCustomPreferenceValue('paazlWidgetNominatedDateEnabled') || false;
 
     var style;
@@ -105,7 +107,6 @@ function initPaazlWidget() {
     }
 
     var logLevel = Site.current.getCustomPreferenceValue('paazlWidgetLogLevel');
-
     var sortingModelOrderBy = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy');
     var paazlWidgetSortingModelSortOrder = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder');
     var paazlWidgetSortingModelDistributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor');

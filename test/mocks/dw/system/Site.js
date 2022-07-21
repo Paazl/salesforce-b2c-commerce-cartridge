@@ -1,4 +1,11 @@
-var sitePrefs = { paazlEnabled: true };
+var sitePrefs = {
+    paazlEnabled: true,
+    paazlProductHeightAttribute: "productHeightAttribute",
+    paazlProductLengthAttribute: "productLengthAttribute",
+    paazlProductVolumeAttribute: "productVolumeAttribute",
+    paazlProductWeightAttribute: "productWeightAttribute",
+    paazlProductWidthAttribute:  "productWidthAttribute"
+};
 var defaultCurrency = { currencyCode: 'USD' };
 
 var current =

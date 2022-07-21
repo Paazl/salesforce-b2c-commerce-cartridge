@@ -166,8 +166,6 @@ function calculateShipping(basket) {
     if (standardShippingLineItem) {
         if (paazlDeliveryInfo && paazlDeliveryInfo.cost) {
             standardShippingLineItem.setPriceValue(paazlDeliveryInfo.cost);
-        } else {
-            standardShippingLineItem.setPriceValue(0);
         }
     }
 }
@@ -338,6 +336,159 @@ function resetSelectedShippingOption(basket) {
     }
 }
 
+/**
+ * Iterates over the price adjustments looking for the start matrix.
+ * @param {dw.util.Collection} priceAdjustments List of price adjustment
+ * @returns {String} Paazl start matrix
+ */
+function getStartMatrixFromPromotion(priceAdjustments) {
+    if (priceAdjustments.empty) {
+        return null;
+    }
+
+    var priceAdjustmentsIt = priceAdjustments.iterator();
+    var priceAdjustment;
+    var promotion;
+    while (priceAdjustmentsIt.hasNext()) {
+        priceAdjustment = priceAdjustmentsIt.next();
+        promotion = priceAdjustment.promotion;
+        if (promotion && promotion.custom.paazlStartMatrix) {
+            return promotion.custom.paazlStartMatrix;
+        }
+    }
+    return null;
+}
+
+/**
+ * Get the Paazl start matrix associated with the promotion applied to the product.
+ * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
+ * @param {dw.util.Collection} productLineItems Product line items from basket
+ * @returns {String} Paazl start matrix
+ */
+function getPaazlStartMatrixFromProductPromotion(productLineItems) {
+    var productLineItemsIt = productLineItems.iterator();
+    while (productLineItemsIt.hasNext()) {
+        var productLineItem = productLineItemsIt.next();
+        var paazlStartMatrix = getStartMatrixFromPromotion(productLineItem.priceAdjustments);
+        if (paazlStartMatrix) {
+            return paazlStartMatrix;
+        }
+    }
+    return null;
+}
+
+/**
+ * Get the Paazl start matrix associated with the promotion applied to the shipping method.
+ * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
+ * @param {dw.util.Collection} shipments Shipments from basket
+ * @returns {String} Paazl start matrix
+ */
+function getPaazlStartMatrixFromShippingPromotion(shipments) {
+    var shipmentsIt = shipments.iterator();
+    while (shipmentsIt.hasNext()) {
+        var shipment = shipmentsIt.next();
+        var paazlStartMatrix = getStartMatrixFromPromotion(shipment.shippingPriceAdjustments);
+        if (paazlStartMatrix) {
+            return paazlStartMatrix;
+        }
+    }
+    return null;
+}
+
+/**
+ * Get the Paazl start matrix associated with the promotion applied to the basket.
+ * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
+ * @param {dw.util.Collection} priceAdjustments Price adjustments from basket
+ * @returns {String} Paazl start matrix
+ */
+function getPaazlStartMatrixFromOrderPromotion(priceAdjustments) {
+    return getStartMatrixFromPromotion(priceAdjustments);
+}
+
+/**
+ * Get the Paazl start matrix associated with the promotions applied to the basket.
+ * @param {dw.order.Basket} basket - the current basket
+ * @returns {String} Paazl start matrix
+ */
+function getPaazlStartMatrixFromPromotion(basket) {
+    return getPaazlStartMatrixFromOrderPromotion(basket.priceAdjustments)
+        || getPaazlStartMatrixFromShippingPromotion(basket.shipments)
+        || getPaazlStartMatrixFromProductPromotion(basket.productLineItems)
+        || null;
+}
+
+/**
+ * Ensure the volume has 3 decimals rouding up.
+ * Eg: If volume is 0.00036 it becomes 0.001, 0.003046 becomes 0.004.
+ * @param {Number} width The product width
+ * @param {Number} height The product height
+ * @param {Number} length The product length
+ * @returns {Number} The product volume formated
+ */
+function formatProductVolume(width, height, length) {
+    var volumeCBM = (width * height * length) / 1000000; // Convert to cubic meter.
+    return Math.ceil(volumeCBM * 1000) / 1000; // Round up and using 3 decimals after floating point.
+}
+
+/**
+ * Fill the product dimensions.
+ * @param {dw.catalog.Product} productApi Product instance
+ * @param {Object} productObj Object representing the product
+ * @returns {Object} Object representing the product filled with its dimensions
+ */
+function setProductDimensions(productApi, productObj) {
+    // Getting the custom attributes IDs used in the product.
+    var paazlProductWidthAttribute = Site.current.getCustomPreferenceValue('paazlProductWidthAttribute');
+    var paazlProductHeightAttribute = Site.current.getCustomPreferenceValue('paazlProductHeightAttribute');
+    var paazlProductLengthAttribute = Site.current.getCustomPreferenceValue('paazlProductLengthAttribute');
+    var paazlProductWeightAttribute = Site.current.getCustomPreferenceValue('paazlProductWeightAttribute');
+    var paazlProductVolumeAttribute = Site.current.getCustomPreferenceValue('paazlProductVolumeAttribute');
+
+    var width = (paazlProductWidthAttribute && productApi.custom[paazlProductWidthAttribute]) || 0;
+    var height = (paazlProductHeightAttribute && productApi.custom[paazlProductHeightAttribute]) || 0;
+    var length = (paazlProductLengthAttribute && productApi.custom[paazlProductLengthAttribute]) || 0;
+    var weight = (paazlProductWeightAttribute && productApi.custom[paazlProductWeightAttribute]) || 0;
+    var volume = (paazlProductVolumeAttribute && productApi.custom[paazlProductVolumeAttribute]) || 0;
+
+    if (width > 0) {
+        productObj.width = width;
+    }
+    if (height > 0) {
+        productObj.height = height;
+    }
+    if (length > 0) {
+        productObj.length = length;
+    }
+    if (weight > 0) {
+        productObj.weight = weight;
+    } else {
+        productObj.weight = 1; // Use 1 as default for retro compatibility.
+    }
+    if (volume > 0) {
+        productObj.volume = volume;
+    } else if (width > 0 && height > 0 && length > 0) {
+        productObj.volume = formatProductVolume(width, height, length);
+    }
+
+    return productObj;
+}
+
+/**
+ * Build the product shipment parameters for the service call.
+ * @param {dw.order.ProductLineItem} productLineItem - The line item for the product.
+ * @returns {Object} Object containing the product shipment parameters for the service call.
+ */
+function setProductShipmentParameters(productLineItem) {
+    var product = {
+        quantity: productLineItem.quantityValue,
+        price: productLineItem.adjustedPrice.value
+    };
+
+    product = setProductDimensions(productLineItem.product, product);
+
+    return product;
+}
+
 module.exports = {
     addressRequest: addressRequest,
     getShippingMethodID: getShippingMethodID,
@@ -348,5 +499,8 @@ module.exports = {
     getPaazlShippingModel: getPaazlShippingModel,
     updateShipment: updateShipment,
     getPaazlStatus: getPaazlStatus,
-    resetSelectedShippingOption: resetSelectedShippingOption
+    resetSelectedShippingOption: resetSelectedShippingOption,
+    getPaazlStartMatrixFromPromotion: getPaazlStartMatrixFromPromotion,
+    setProductDimensions: setProductDimensions,
+    setProductShipmentParameters: setProductShipmentParameters
 };

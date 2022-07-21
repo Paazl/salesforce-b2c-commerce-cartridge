@@ -1,12 +1,10 @@
 'use strict';
 
-var summaryHelpers = require('./summary');
-
 /**
  * updates the totals summary
  * @param {Array} totals - the totals data
  */
- function updateTotals(totals) {
+function updateTotals(totals) {
     $('.shipping-total-cost').text(totals.totalShippingCost);
     $('.tax-total').text(totals.totalTax);
     $('.sub-total').text(totals.subTotal);

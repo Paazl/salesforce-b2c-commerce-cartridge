@@ -1,5 +1,7 @@
 var Logger = require('dw/system/Logger');
 
+var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
+
 /**
  * Return customer's full name
  * @param {dw.order.Order} order SFCC order
@@ -64,6 +66,8 @@ function getProducts(order) {
         pliObj.unitPrice.currency = currencyCode;
         pliObj.quantity = pli.quantityValue;
         pliObj.description = pli.product.name;
+
+        pliObj = paazlHelper.setProductDimensions(pli.product, pliObj);
 
         return pliObj;
     });
