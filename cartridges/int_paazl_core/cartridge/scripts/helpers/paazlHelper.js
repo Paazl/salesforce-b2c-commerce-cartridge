@@ -164,7 +164,7 @@ function calculateShipping(basket) {
     }
     var standardShippingLineItem = basket.defaultShipment.standardShippingLineItem;
     if (standardShippingLineItem) {
-        if (paazlDeliveryInfo && paazlDeliveryInfo.cost) {
+        if (paazlDeliveryInfo && 'cost' in paazlDeliveryInfo) {
             standardShippingLineItem.setPriceValue(paazlDeliveryInfo.cost);
         }
     }
@@ -341,7 +341,7 @@ function resetSelectedShippingOption(basket) {
  * @param {dw.util.Collection} priceAdjustments List of price adjustment
  * @returns {String} Paazl start matrix
  */
-function getStartMatrixFromPromotion(priceAdjustments) {
+function getPromotionWithStartMatrix(priceAdjustments) {
     if (priceAdjustments.empty) {
         return null;
     }
@@ -353,7 +353,7 @@ function getStartMatrixFromPromotion(priceAdjustments) {
         priceAdjustment = priceAdjustmentsIt.next();
         promotion = priceAdjustment.promotion;
         if (promotion && promotion.custom.paazlStartMatrix) {
-            return promotion.custom.paazlStartMatrix;
+            return promotion;
         }
     }
     return null;
@@ -365,13 +365,13 @@ function getStartMatrixFromPromotion(priceAdjustments) {
  * @param {dw.util.Collection} productLineItems Product line items from basket
  * @returns {String} Paazl start matrix
  */
-function getPaazlStartMatrixFromProductPromotion(productLineItems) {
+function getProductPromotionWithPaazlStartMatrix(productLineItems) {
     var productLineItemsIt = productLineItems.iterator();
     while (productLineItemsIt.hasNext()) {
         var productLineItem = productLineItemsIt.next();
-        var paazlStartMatrix = getStartMatrixFromPromotion(productLineItem.priceAdjustments);
-        if (paazlStartMatrix) {
-            return paazlStartMatrix;
+        var promotion = getPromotionWithStartMatrix(productLineItem.priceAdjustments);
+        if (promotion) {
+            return promotion;
         }
     }
     return null;
@@ -383,13 +383,13 @@ function getPaazlStartMatrixFromProductPromotion(productLineItems) {
  * @param {dw.util.Collection} shipments Shipments from basket
  * @returns {String} Paazl start matrix
  */
-function getPaazlStartMatrixFromShippingPromotion(shipments) {
+function getShippingPromotionPaazlStartMatrix(shipments) {
     var shipmentsIt = shipments.iterator();
     while (shipmentsIt.hasNext()) {
         var shipment = shipmentsIt.next();
-        var paazlStartMatrix = getStartMatrixFromPromotion(shipment.shippingPriceAdjustments);
-        if (paazlStartMatrix) {
-            return paazlStartMatrix;
+        var promotion = getPromotionWithStartMatrix(shipment.shippingPriceAdjustments);
+        if (promotion) {
+            return promotion;
         }
     }
     return null;
@@ -401,19 +401,19 @@ function getPaazlStartMatrixFromShippingPromotion(shipments) {
  * @param {dw.util.Collection} priceAdjustments Price adjustments from basket
  * @returns {String} Paazl start matrix
  */
-function getPaazlStartMatrixFromOrderPromotion(priceAdjustments) {
-    return getStartMatrixFromPromotion(priceAdjustments);
+function getOrderPromotionWithPaazlStartMatrix(priceAdjustments) {
+    return getPromotionWithStartMatrix(priceAdjustments);
 }
 
 /**
- * Get the Paazl start matrix associated with the promotions applied to the basket.
- * @param {dw.order.Basket} basket - the current basket
- * @returns {String} Paazl start matrix
+ * Return the promotion with start matrix available.
+ * @param {dw.order.Basket} basket Current basket.
+ * @returns {dw.campaign.Promotion} Promotion that triggers the matrix
  */
-function getPaazlStartMatrixFromPromotion(basket) {
-    return getPaazlStartMatrixFromOrderPromotion(basket.priceAdjustments)
-        || getPaazlStartMatrixFromShippingPromotion(basket.shipments)
-        || getPaazlStartMatrixFromProductPromotion(basket.productLineItems)
+function getPaazlStartMatrixPromotion(basket) {
+    return getOrderPromotionWithPaazlStartMatrix(basket.priceAdjustments)
+        || getShippingPromotionPaazlStartMatrix(basket.shipments)
+        || getProductPromotionWithPaazlStartMatrix(basket.productLineItems)
         || null;
 }
 
@@ -500,7 +500,7 @@ module.exports = {
     updateShipment: updateShipment,
     getPaazlStatus: getPaazlStatus,
     resetSelectedShippingOption: resetSelectedShippingOption,
-    getPaazlStartMatrixFromPromotion: getPaazlStartMatrixFromPromotion,
     setProductDimensions: setProductDimensions,
-    setProductShipmentParameters: setProductShipmentParameters
+    setProductShipmentParameters: setProductShipmentParameters,
+    getPaazlStartMatrixPromotion: getPaazlStartMatrixPromotion
 };

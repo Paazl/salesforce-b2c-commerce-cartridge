@@ -3,6 +3,10 @@
         {
             "name": "dw.order.calculateShipping",
             "script": "./hooks/cart/paazlCalculate.js"
+        },
+        {
+            "name": "dw.order.calculateTax",
+            "script": "./hooks/cart/paazlCalculate.js"
         }
     ]
 }

@@ -2,6 +2,7 @@
 
 var base = module.superModule;
 var PaazlShippingMethodModel = require('*/cartridge/models/shipping/paazlShippingMethod');
+var ShippingMgr = require('dw/order/ShippingMgr');
 var logger = require('dw/system/Logger').getLogger('paazlAPI', 'paazl');
 
 /**
@@ -17,6 +18,8 @@ function ShippingModel (shipment, address, customer, containerView) { // eslint-
     base.apply(this, arguments);
     var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
     var currentPaazlShippingMethodID = paazlHelper.getShippingMethodID();
+    var shipmentModel = ShippingMgr.getShipmentShippingModel(shipment);
+    this.applicableShippingMethods = shipmentModel.applicableShippingMethods;
     var paazlStatus = paazlHelper.getPaazlStatus(shipment);
     if (paazlStatus.active && shipment && shipment.custom.paazlDeliveryInfo) {
         // In case of PICKUP_LOCATION, get the PICKUP_LOCATION to use in the shipping summary

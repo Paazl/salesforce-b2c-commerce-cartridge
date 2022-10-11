@@ -31,7 +31,7 @@ function getShipmentParameters(basket) {
         goods: products
     };
 
-    var paazlSartMatrix = paazlHelper.getPaazlStartMatrixFromPromotion(basket);
+    var paazlSartMatrix = basket.custom.paazlStartMatrix;
     if (paazlSartMatrix) {
         shipmentParameters.startMatrix = paazlSartMatrix;
     }
