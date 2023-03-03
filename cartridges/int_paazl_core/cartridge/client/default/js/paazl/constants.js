@@ -6,7 +6,6 @@ var attributes = {
 
 var selectors = {
     body: 'body',
-    addressService: '.js-addressservice-url',
     endlines: 'end-lines',
     hide: 'hide',
     paazlButtons: '#paazl-checkout button:not([type="submit"])',
@@ -29,9 +28,6 @@ var selectors = {
         postalCode: 'input[name*=_postal]',
         city: 'input[name$=_city]',
         country: 'select[name*=_country]'
-    },
-    attrs: {
-        addressServiceUrl: 'data-addressservice-url'
     }
 };
 

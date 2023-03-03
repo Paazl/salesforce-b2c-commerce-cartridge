@@ -11,11 +11,21 @@
                 <externally-managed-flag>true</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlStartMatrix">
+                <display-name xml:lang="x-default">Paazl Start Matrix</display-name>
+                <description xml:lang="x-default">Initial start matrix value used to initialise the widget when there is a promotion applied. Format expected are one or two uppercase letters. Eg: AA, B</description>
+                <type>string</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Paazl">
                 <display-name xml:lang="x-default">Paazl</display-name>
                 <attribute attribute-id="paazlAPIToken"/>
+                <attribute attribute-id="paazlStartMatrix"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
@@ -256,6 +266,10 @@
                         <display xml:lang="x-default">PICKUP</display>
                         <value>PICKUP</value>
                     </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">PARCEL_LOCKER</display>
+                        <value>PARCEL_LOCKER</value>
+                    </value-definition>
                 </value-definitions>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetCustomizedStyle">
@@ -283,6 +297,10 @@
                     <value-definition>
                         <display xml:lang="x-default">STORE</display>
                         <value>STORE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">PARCEL_LOCKER</display>
+                        <value>PARCEL_LOCKER</value>
                     </value-definition>
                 </value-definitions>
             </attribute-definition>

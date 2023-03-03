@@ -1,6 +1,6 @@
 {
   "name": "int_paazl_core",
-  "version": "22.5.0",
+  "version": "23.1.0",
   "description": "Paazl plugin for Storefront Reference Architecture",
   "scripts": {
     "test": "sgmf-scripts --test test/unit/**/*.js",

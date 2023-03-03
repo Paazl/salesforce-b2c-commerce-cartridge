@@ -18,12 +18,6 @@
         <password encrypted="true" encryption-type="common.export"/>
     </service-credential>
 
-    <service-credential service-credential-id="credentials.paazl.soap">
-        <url>https://staging.paazl.com/parcelshipperservice/services</url>
-        <user-id></user-id>
-        <password></password>
-    </service-credential>
-
     <service-profile service-profile-id="profile.paazl">
         <timeout-millis>2000</timeout-millis>
         <rate-limit-enabled>false</rate-limit-enabled>
@@ -66,16 +60,4 @@
         <profile-id>profile.paazl</profile-id>
         <credential-id>credentials.paazl.rest.token</credential-id>
     </service>
-
-    <service service-id="service.paazl.orderrequest.address">
-        <service-type>SOAP</service-type>
-        <enabled>true</enabled>
-        <log-prefix>paazlAPI</log-prefix>
-        <comm-log-enabled>true</comm-log-enabled>
-        <force-prd-enabled>true</force-prd-enabled>
-        <mock-mode-enabled>false</mock-mode-enabled>
-        <profile-id>profile.paazl</profile-id>
-        <credential-id>credentials.paazl.soap</credential-id>
-    </service>
-
 </services>

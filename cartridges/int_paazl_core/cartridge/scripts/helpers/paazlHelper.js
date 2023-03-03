@@ -1,34 +1,7 @@
-var WeakMessageDigest = require('dw/crypto/WeakMessageDigest');
 var Site = require('dw/system/Site');
 var Logger = require('dw/system/Logger');
 var Transaction = require('dw/system/Transaction');
 var Resource = require('dw/web/Resource');
-
-/**
- * build request for the Paazl address validation SOAP call
- *
- * @param {Object} webRef Service stub
- * @param {Object} params Required fields for service call
- * @returns{Object} OrderRequest SOAP Request with all the order details
- */
-function addressRequest(webRef, params) {
-    var paazlAddressRequest = new webRef.com.paazl.schemas.matrix.AddressRequest();
-
-    var webshopID = Site.current.getCustomPreferenceValue('paazlWebshopID');
-    var paazlPassword = Site.current.getCustomPreferenceValue('paazlPassword');
-
-    var securityMsg = webshopID + paazlPassword + params.paazlReferenceID;
-    var sha1 = new WeakMessageDigest(WeakMessageDigest.DIGEST_SHA_1);
-    var encryptedSecurityMsg = sha1.digest(securityMsg);
-
-    paazlAddressRequest.setWebshop(webshopID);
-    paazlAddressRequest.setHash(encryptedSecurityMsg);
-    paazlAddressRequest.setOrderReference(params.paazlReferenceID);
-    paazlAddressRequest.setZipcode(params.zipCode);
-    paazlAddressRequest.setHousenumber(params.houseNbr);
-
-    return paazlAddressRequest;
-}
 
 /**
  * Get Paazl Shipping Option ID
@@ -490,7 +463,6 @@ function setProductShipmentParameters(productLineItem) {
 }
 
 module.exports = {
-    addressRequest: addressRequest,
     getShippingMethodID: getShippingMethodID,
     updateTokenInBasket: updateTokenInBasket,
     getSelectedShippingOption: getSelectedShippingOption,
