@@ -14,7 +14,6 @@ function getShipmentParameters(basket) {
     var products = [];
     var totalWeight = 0;
     var totalPrice = 0;
-    var totalVolume = 0;
     if (productLineItems && productLineItems.length > 0) {
         productLineItems.toArray().forEach(function (productLineItem) {
             var product = paazlHelper.setProductShipmentParameters(productLineItem);
@@ -107,9 +106,23 @@ function initPaazlWidget() {
     }
 
     var logLevel = Site.current.getCustomPreferenceValue('paazlWidgetLogLevel');
-    var sortingModelOrderBy = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy');
-    var paazlWidgetSortingModelSortOrder = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder');
-    var paazlWidgetSortingModelDistributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor');
+
+    // sortingModel for each tab
+    var sortingModel = [];
+    for (var i = 0; i < availableTabs.length; i++) {
+        var tab = availableTabs[i];
+        var orderBy = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy' + tab);
+        var sortOrder = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder' + tab);
+        var sortOption = {
+            tab: tab,
+            orderBy: orderBy ? orderBy.value : tab === 'DELIVERY' ? 'PRICE' : 'DISTANCE', // eslint-disable-line no-nested-ternary
+            sortOrder: sortOrder ? sortOrder.value : 'ASC'
+        };
+        if (sortOption.orderBy === 'CARRIER') {
+            sortOption.distributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor');
+        }
+        sortingModel.push(sortOption);
+    }
 
     // This is a example of a possible initialization of the Widget
     // In this example few of the info are set dynamically or configurable using Site preferences and some are hard coded
@@ -137,10 +150,7 @@ function initPaazlWidget() {
         pickupOptionDateFormat: 'ddd DD MMM',
         pickupEstimateDateFormat: 'dddd DD MMMM',
 
-        sortingModel: {
-            orderBy: sortingModelOrderBy.value,
-            sortOrder: paazlWidgetSortingModelSortOrder.value
-        },
+        sortingModel: sortingModel,
 
         shipmentParameters: currentBasket ? getShipmentParameters(currentBasket) : {},
 
@@ -151,10 +161,6 @@ function initPaazlWidget() {
 
         logLevel: logLevel ? logLevel.value : 'NONE'
     };
-
-    if (paazlWidgetSortingModelDistributor) {
-        paazlWidget.sortingModel.distributor = paazlWidgetSortingModelDistributor;
-    }
 
     return paazlWidget;
 }

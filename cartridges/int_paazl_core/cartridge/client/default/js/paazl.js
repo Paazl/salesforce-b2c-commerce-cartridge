@@ -29,7 +29,7 @@ function updateTotals(totals) {
 $(document).ready(function () {
     require('./paazl/paazl');
 
-    window.onPaazlSelect = function (selected) {
+    window.onPaazlSelect = function () {
         var url = $('#checkout-main').attr('data-checkout-get-url');
         $.ajax({
             url: url,

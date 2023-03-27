@@ -71,6 +71,10 @@ function getCheckoutService() {
                         selectedOptionResponse.name = shippingOption.name || '';
                         selectedOptionResponse.deliveryDates = shippingOption.deliveryDates || {};
                         selectedOptionResponse.estimatedDeliveryRange = shippingOption.estimatedDeliveryRange || {};
+                        var metadata = paazlHelper.convertPaazlMetadataToObject(shippingOption.metadata);
+                        if (metadata) selectedOptionResponse.metadata = metadata;
+                        var carrierMetadata = paazlHelper.convertPaazlMetadataToObject(shippingOption.carrierMetadata);
+                        if (carrierMetadata) selectedOptionResponse.carrierMetadata = carrierMetadata;
                     } else {
                         selectedOptionResponse.noSippingOptionObj = true;
                         Logger.error('REST API Checkout - No shippingOption Object return from Paazl.');

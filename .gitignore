@@ -1,1 +1,2 @@
-cartridges/int_paazl_core/cartridge/static/
+node_modules/
+package-lock.json

@@ -23,7 +23,7 @@ function calculateShipping (basket) {
         // Always remove start matrix information,
         // that ensure the consistency when something
         // changes in the basket.
-        delete basket.custom.paazlStartMatrix;
+        delete basket.custom.paazlStartMatrix; // eslint-disable-line no-param-reassign
     }
     return new Status(Status.OK);
 }
@@ -48,7 +48,7 @@ function calculateTax (basket) {
     var paazlStatus = paazlHelper.getPaazlStatus(basket.defaultShipment);
 
     if (paazlStatus.active && basket.defaultShipment.custom.paazlDeliveryInfo) {
-        var paazlDeliveryInfo = null;
+       var paazlDeliveryInfo = null;
 
         try {
             paazlDeliveryInfo = JSON.parse(basket.defaultShipment.custom.paazlDeliveryInfo);
@@ -69,7 +69,7 @@ function calculateTax (basket) {
         // only set a price if the price was 0,
         // otherwise it is not needed since a shipping promotion will already be triggered
         if (originalStandardShippingLineItemPrice === 0) {
-            basket.custom.paazlStartMatrix = null;
+            basket.custom.paazlStartMatrix = null; // eslint-disable-line no-param-reassign
             standardShippingLineItem.setPriceValue(1);
             PromotionMgr.applyDiscounts(basket);
             paazlHelper.calculateShipping(basket);
@@ -85,7 +85,7 @@ function calculateTax (basket) {
                 shippingPriceAdjustment = allShippingPriceAdjustmentsIt.next();
 
                 if (shippingPriceAdjustment.promotionID === promotion.ID) {
-                    basket.custom.paazlStartMatrix = promotion.custom.paazlStartMatrix;
+                    basket.custom.paazlStartMatrix = promotion.custom.paazlStartMatrix; // eslint-disable-line no-param-reassign
                 }
             }
         }

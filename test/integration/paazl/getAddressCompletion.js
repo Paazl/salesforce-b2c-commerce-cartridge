@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var request = require('request-promise');
 var config = require('../it.config');
-var baseUrl = 'https://' + config.baseUrl + '/on/demandware.store/Sites-RefArch-Site/en_US';
+var baseUrl = config.baseUrl;
 var chai = require('chai');
 var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);

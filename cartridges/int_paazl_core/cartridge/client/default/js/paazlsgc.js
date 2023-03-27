@@ -1,9 +1,10 @@
+
 'use strict';
 
 $(document).ready(function () {
     require('./paazl/paazl');
 
-    window.onPaazlSelect = function(selected) {
+    window.onPaazlSelect = function () {
         var url = window.paazlSummaryUrl;
         $.ajax({
             url: url,

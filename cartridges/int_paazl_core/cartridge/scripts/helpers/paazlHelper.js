@@ -228,7 +228,7 @@ function persistOriginalShippingAddress(shipment, shippingAddress) {
         suite: shippingAddress.suite,
         title: shippingAddress.title
     };
-    shipment.custom.paazlOriginalShippingAddress = JSON.stringify(originalShippingAddress);
+    shipment.custom.paazlOriginalShippingAddress = JSON.stringify(originalShippingAddress); // eslint-disable-line no-param-reassign
 }
 
 /**
@@ -312,7 +312,7 @@ function resetSelectedShippingOption(basket) {
 /**
  * Iterates over the price adjustments looking for the start matrix.
  * @param {dw.util.Collection} priceAdjustments List of price adjustment
- * @returns {String} Paazl start matrix
+ * @returns {string} Paazl start matrix
  */
 function getPromotionWithStartMatrix(priceAdjustments) {
     if (priceAdjustments.empty) {
@@ -336,7 +336,7 @@ function getPromotionWithStartMatrix(priceAdjustments) {
  * Get the Paazl start matrix associated with the promotion applied to the product.
  * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
  * @param {dw.util.Collection} productLineItems Product line items from basket
- * @returns {String} Paazl start matrix
+ * @returns {string} Paazl start matrix
  */
 function getProductPromotionWithPaazlStartMatrix(productLineItems) {
     var productLineItemsIt = productLineItems.iterator();
@@ -354,7 +354,7 @@ function getProductPromotionWithPaazlStartMatrix(productLineItems) {
  * Get the Paazl start matrix associated with the promotion applied to the shipping method.
  * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
  * @param {dw.util.Collection} shipments Shipments from basket
- * @returns {String} Paazl start matrix
+ * @returns {string} Paazl start matrix
  */
 function getShippingPromotionPaazlStartMatrix(shipments) {
     var shipmentsIt = shipments.iterator();
@@ -372,7 +372,7 @@ function getShippingPromotionPaazlStartMatrix(shipments) {
  * Get the Paazl start matrix associated with the promotion applied to the basket.
  * If multiple promotions are applied, the first one with a present value for paazlStartMatrix is taken.
  * @param {dw.util.Collection} priceAdjustments Price adjustments from basket
- * @returns {String} Paazl start matrix
+ * @returns {string} Paazl start matrix
  */
 function getOrderPromotionWithPaazlStartMatrix(priceAdjustments) {
     return getPromotionWithStartMatrix(priceAdjustments);
@@ -393,10 +393,10 @@ function getPaazlStartMatrixPromotion(basket) {
 /**
  * Ensure the volume has 3 decimals rouding up.
  * Eg: If volume is 0.00036 it becomes 0.001, 0.003046 becomes 0.004.
- * @param {Number} width The product width
- * @param {Number} height The product height
- * @param {Number} length The product length
- * @returns {Number} The product volume formated
+ * @param {number} width The product width
+ * @param {number} height The product height
+ * @param {number} length The product length
+ * @returns {number} The product volume formated
  */
 function formatProductVolume(width, height, length) {
     var volumeCBM = (width * height * length) / 1000000; // Convert to cubic meter.
@@ -424,23 +424,24 @@ function setProductDimensions(productApi, productObj) {
     var volume = (paazlProductVolumeAttribute && productApi.custom[paazlProductVolumeAttribute]) || 0;
 
     if (width > 0) {
-        productObj.width = width;
+        productObj.width = width; // eslint-disable-line no-param-reassign
     }
     if (height > 0) {
-        productObj.height = height;
+        productObj.height = height; // eslint-disable-line no-param-reassign
     }
     if (length > 0) {
-        productObj.length = length;
+        productObj.length = length; // eslint-disable-line no-param-reassign
     }
     if (weight > 0) {
-        productObj.weight = weight;
+        productObj.weight = weight; // eslint-disable-line no-param-reassign
     } else {
-        productObj.weight = 1; // Use 1 as default for retro compatibility.
+        // Use 1 as default for retro compatibility.
+        productObj.weight = 1; // eslint-disable-line no-param-reassign
     }
     if (volume > 0) {
-        productObj.volume = volume;
+        productObj.volume = volume; // eslint-disable-line no-param-reassign
     } else if (width > 0 && height > 0 && length > 0) {
-        productObj.volume = formatProductVolume(width, height, length);
+        productObj.volume = formatProductVolume(width, height, length); // eslint-disable-line no-param-reassign
     }
 
     return productObj;
@@ -462,6 +463,21 @@ function setProductShipmentParameters(productLineItem) {
     return product;
 }
 
+/**
+ * Converts the specified metadata to an object.
+ * @param {Srray} metadata The Paazl metadata
+ * @returns {Object} The metadata converted to an object, or null ir no metadata was specified
+ */
+function convertPaazlMetadataToObject(metadata) {
+    if (!metadata || !metadata.length) return null;
+    var result = {};
+    for (var i = 0; i < metadata.length; i++) {
+        var nameValue = metadata[i];
+        result[nameValue.name] = nameValue.value;
+    }
+    return result;
+}
+
 module.exports = {
     getShippingMethodID: getShippingMethodID,
     updateTokenInBasket: updateTokenInBasket,
@@ -474,5 +490,6 @@ module.exports = {
     resetSelectedShippingOption: resetSelectedShippingOption,
     setProductDimensions: setProductDimensions,
     setProductShipmentParameters: setProductShipmentParameters,
-    getPaazlStartMatrixPromotion: getPaazlStartMatrixPromotion
+    getPaazlStartMatrixPromotion: getPaazlStartMatrixPromotion,
+    convertPaazlMetadataToObject: convertPaazlMetadataToObject
 };

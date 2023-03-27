@@ -37,7 +37,7 @@ server.prepend(
         var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
         var currentBasket = BasketMgr.getCurrentBasket();
         var paazlHelper = require('*/cartridge/scripts/helpers/paazlHelper');
-        var paazlShippingOption = paazlHelper.getSelectedShippingOption(currentBasket);
+        paazlHelper.getSelectedShippingOption(currentBasket);
 
         COHelpers.recalculateBasket(currentBasket);
         next();

@@ -20,7 +20,6 @@ server.append(
             var basketCalculationHelpers = require('*/cartridge/scripts/helpers/basketCalculationHelpers');
             Transaction.wrap(function () {
                 cartHelper.ensureAllShipmentsHaveMethods(currentBasket);
-    
                 basketCalculationHelpers.calculateTotals(currentBasket);
             });
         }

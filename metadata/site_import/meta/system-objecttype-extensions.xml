@@ -390,14 +390,14 @@
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetSortingModelDistributor">
                 <display-name xml:lang="x-default">Paazl Widget Distributor</display-name>
-                <description xml:lang="x-default">Only required when "CARRIER" is selected at "Paazl Widget Order By"</description>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected at one of the "Paazl Widget Order By" preferences</description>
                 <type>string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
-            <attribute-definition attribute-id="paazlWidgetSortingModelOrderBy">
-                <display-name xml:lang="x-default">Paazl Widget Order By</display-name>
+            <attribute-definition attribute-id="paazlWidgetSortingModelOrderByDELIVERY">
+                <display-name xml:lang="x-default">Paazl Widget Order By - delivery tab</display-name>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -416,8 +416,128 @@
                     </value-definition>
                 </value-definitions>
             </attribute-definition>
-            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrder">
-                <display-name xml:lang="x-default">Paazl Widget Sort Order</display-name>
+            <attribute-definition attribute-id="paazlWidgetSortingModelOrderByPARCEL_LOCKER">
+                <display-name xml:lang="x-default">Paazl Widget Order By - parcel locker tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Distance</display>
+                        <value>DISTANCE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Price</display>
+                        <value>PRICE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Date</display>
+                        <value>DATE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Carrier</display>
+                        <value>CARRIER</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelOrderByPICKUP">
+                <display-name xml:lang="x-default">Paazl Widget Order By - pickup tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Distance</display>
+                        <value>DISTANCE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Price</display>
+                        <value>PRICE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Date</display>
+                        <value>DATE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Carrier</display>
+                        <value>CARRIER</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelOrderBySTORE">
+                <display-name xml:lang="x-default">Paazl Widget Order By - store tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Distance</display>
+                        <value>DISTANCE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Price</display>
+                        <value>PRICE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Date</display>
+                        <value>DATE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Carrier</display>
+                        <value>CARRIER</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrderDELIVERY">
+                <display-name xml:lang="x-default">Paazl Widget Sort Order - delivery tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Ascending</display>
+                        <value>ASC</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Descending</display>
+                        <value>DESC</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrderPARCEL_LOCKER">
+                <display-name xml:lang="x-default">Paazl Widget Sort Order - parcel locker tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Ascending</display>
+                        <value>ASC</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Descending</display>
+                        <value>DESC</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrderPICKUP">
+                <display-name xml:lang="x-default">Paazl Widget Sort Order - pickup tab</display-name>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Ascending</display>
+                        <value>ASC</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Descending</display>
+                        <value>DESC</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelSortOrderSTORE">
+                <display-name xml:lang="x-default">Paazl Widget Sort Order - store tab</display-name>
                 <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -455,9 +575,15 @@
                 <attribute attribute-id="paazlDefaultShippingOption"/>
                 <attribute attribute-id="paazlDefaultSenderAddress"/>
                 <attribute attribute-id="paazlCommitOrderMaxAttempts"/>
-                <attribute attribute-id="paazlWidgetSortingModelOrderBy"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderByDELIVERY"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderByPARCEL_LOCKER"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderByPICKUP"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderBySTORE"/>
+                <attribute attribute-id="paazlWidgetSortingModelSortOrderDELIVERY"/>
+                <attribute attribute-id="paazlWidgetSortingModelSortOrderPARCEL_LOCKER"/>
+                <attribute attribute-id="paazlWidgetSortingModelSortOrderPICKUP"/>
+                <attribute attribute-id="paazlWidgetSortingModelSortOrderSTORE"/>
                 <attribute attribute-id="paazlWidgetSortingModelDistributor"/>
-                <attribute attribute-id="paazlWidgetSortingModelSortOrder"/>
                 <attribute attribute-id="paazlProductHeightAttribute"/>
                 <attribute attribute-id="paazlProductLengthAttribute"/>
                 <attribute attribute-id="paazlProductVolumeAttribute"/>

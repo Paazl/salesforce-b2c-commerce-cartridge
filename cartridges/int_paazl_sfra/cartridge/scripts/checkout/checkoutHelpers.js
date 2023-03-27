@@ -28,8 +28,8 @@ function placeOrder (order, fraudDetectionStatus) {
                 // Set Order custom attribute 'notSavedInPaazl' to true, so the order will process by a job to be committed into Paazl
                 var Transaction = require('dw/system/Transaction');
                 Transaction.wrap(function () {
-                    order.custom.notSavedInPaazl = true;
-                    order.custom.failedAttempts = 0;
+                    order.custom.notSavedInPaazl = true; // eslint-disable-line no-param-reassign
+                    order.custom.failedAttempts = 0; // eslint-disable-line no-param-reassign
                 });
             }
         }
