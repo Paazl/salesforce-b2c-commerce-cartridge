@@ -388,9 +388,33 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>10</default-value>
             </attribute-definition>
-            <attribute-definition attribute-id="paazlWidgetSortingModelDistributor">
-                <display-name xml:lang="x-default">Paazl Widget Distributor</display-name>
-                <description xml:lang="x-default">Only required when "CARRIER" is selected at one of the "Paazl Widget Order By" preferences</description>
+            <attribute-definition attribute-id="paazlWidgetSortingModelDistributorDELIVERY">
+                <display-name xml:lang="x-default">Paazl Widget Distributor - delivery tab</display-name>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected for the "Paazl Widget Order By - delivery tab" preference</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelDistributorPARCEL_LOCKER">
+                <display-name xml:lang="x-default">Paazl Widget Distributor - parcel locker tab</display-name>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected for the "Paazl Widget Order By - parcel locker tab" preference</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelDistributorPICKUP">
+                <display-name xml:lang="x-default">Paazl Widget Distributor - pickup tab</display-name>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected for the "Paazl Widget Order By - pickup tab" preference</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetSortingModelDistributorSTORE">
+                <display-name xml:lang="x-default">Paazl Widget Distributor - store tab</display-name>
+                <description xml:lang="x-default">Only required when "CARRIER" is selected for the "Paazl Widget Order By - store tab" preference</description>
                 <type>string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -576,14 +600,17 @@
                 <attribute attribute-id="paazlDefaultSenderAddress"/>
                 <attribute attribute-id="paazlCommitOrderMaxAttempts"/>
                 <attribute attribute-id="paazlWidgetSortingModelOrderByDELIVERY"/>
-                <attribute attribute-id="paazlWidgetSortingModelOrderByPARCEL_LOCKER"/>
-                <attribute attribute-id="paazlWidgetSortingModelOrderByPICKUP"/>
-                <attribute attribute-id="paazlWidgetSortingModelOrderBySTORE"/>
+                <attribute attribute-id="paazlWidgetSortingModelDistributorDELIVERY"/>
                 <attribute attribute-id="paazlWidgetSortingModelSortOrderDELIVERY"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderByPARCEL_LOCKER"/>
+                <attribute attribute-id="paazlWidgetSortingModelDistributorPARCEL_LOCKER"/>
                 <attribute attribute-id="paazlWidgetSortingModelSortOrderPARCEL_LOCKER"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderByPICKUP"/>
+                <attribute attribute-id="paazlWidgetSortingModelDistributorPICKUP"/>
                 <attribute attribute-id="paazlWidgetSortingModelSortOrderPICKUP"/>
+                <attribute attribute-id="paazlWidgetSortingModelOrderBySTORE"/>
+                <attribute attribute-id="paazlWidgetSortingModelDistributorSTORE"/>
                 <attribute attribute-id="paazlWidgetSortingModelSortOrderSTORE"/>
-                <attribute attribute-id="paazlWidgetSortingModelDistributor"/>
                 <attribute attribute-id="paazlProductHeightAttribute"/>
                 <attribute attribute-id="paazlProductLengthAttribute"/>
                 <attribute attribute-id="paazlProductVolumeAttribute"/>

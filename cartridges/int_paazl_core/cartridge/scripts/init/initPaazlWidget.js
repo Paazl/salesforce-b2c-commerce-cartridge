@@ -119,7 +119,7 @@ function initPaazlWidget() {
             sortOrder: sortOrder ? sortOrder.value : 'ASC'
         };
         if (sortOption.orderBy === 'CARRIER') {
-            sortOption.distributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor');
+            sortOption.distributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor' + tab);
         }
         sortingModel.push(sortOption);
     }
