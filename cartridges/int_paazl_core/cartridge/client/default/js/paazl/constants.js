@@ -13,6 +13,7 @@ var selectors = {
     paazlCheckoutOptionPrefixSG: '#shipping-method-',
     paazlID: '[data-' + attributes.paazlID + ']',
     paazlWrapper: '#paazl-checkout',
+    submitButton: 'button.submit-shipping',
     forms: {
         shipping: 'form[name*="_shipping"]',
         billing: 'form[name$="_billing"]',
@@ -35,6 +36,8 @@ var events = {
     blur: 'blur',
     change: 'change',
     click: 'click',
+    keyup: 'keyup',
+    keydown: 'keydown',
     updateShippingMethods: 'shipping:updateShippingMethods'
 };
 

@@ -54,11 +54,15 @@ server.append(
                 }
             }
 
+            // Toggle to define how the widget should reload after typing the zipcode
+            var paazlWidgetRefreshZipStopTyping = Site.current.getCustomPreferenceValue('paazlWidgetRefreshZipStopTyping') || false;
+
             res.setViewData({
                 paazlWidgetInit: InitPaazlWidget.initPaazlWidget(),
                 paazlWidgetEndpoint: paazlWidgetEndpoint,
                 currentPaazlShippingMethodID: currentPaazlShippingMethodID,
-                isPaazlUniqueShippingOption: isPaazlUniqueShippingOption
+                isPaazlUniqueShippingOption: isPaazlUniqueShippingOption,
+                paazlWidgetRefreshZipStopTyping: paazlWidgetRefreshZipStopTyping
             });
         }
 

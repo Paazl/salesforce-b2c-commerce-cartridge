@@ -380,6 +380,12 @@
                     </value-definition>
                 </value-definitions>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetRefreshZipStopTyping">
+                <display-name xml:lang="x-default">Refresh widget container when the customer stops typing in the postal code field. Otherwise it uses the default behaviour, refresh after focus out.</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetShippingOptionsLimit">
                 <display-name xml:lang="x-default"># Delivery Tab Shipping Options</display-name>
                 <description xml:lang="x-default">Limits the number of shipping options displayed on the widget's "Delivery" tab.</description>
@@ -616,6 +622,7 @@
                 <attribute attribute-id="paazlProductVolumeAttribute"/>
                 <attribute attribute-id="paazlProductWeightAttribute"/>
                 <attribute attribute-id="paazlProductWidthAttribute"/>
+                <attribute attribute-id="paazlWidgetRefreshZipStopTyping"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

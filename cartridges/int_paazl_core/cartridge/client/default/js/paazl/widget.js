@@ -108,7 +108,27 @@ function onUpdateShippingMethods(evt, resp) {
 */
 function assignListeners(scope) {
     scope.on(events.change, selectors.address.country, updatePaazlWidget.bind(null, 'setConsigneeCountryCode'));
-    scope.on(events.change, selectors.address.postalCode, updatePaazlWidget.bind(null, 'setConsigneePostalCode'));
+
+    if (window.paazlWidgetRefreshZipStopTyping) {
+        var typingTimer;
+        var doneTypingInterval = 1000;
+
+        scope.on(events.keyup, selectors.address.postalCode, function (e) {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(function() {
+                updatePaazlWidget('setConsigneePostalCode', e);
+            }, doneTypingInterval);
+        });
+
+        scope.on(events.keydown, selectors.address.postalCode, function (e) {
+            clearTimeout(typingTimer);
+        });
+    } else {
+        scope.on(events.change, selectors.address.postalCode, function (e) {
+            updatePaazlWidget('setConsigneePostalCode', e);
+        });
+    }
+
     $(selectors.body).on(events.updateShippingMethods, onUpdateShippingMethods);
     $(document).on(events.click, selectors.paazlButtons, function preventSubmit(e) {
         e.preventDefault();
