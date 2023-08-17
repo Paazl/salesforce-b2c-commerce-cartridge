@@ -6,6 +6,7 @@ var constants = require('./constants');
 var attributes = constants.attributes;
 var selectors = constants.selectors;
 var events = constants.events;
+var oldValue = null;
 
 var observer;
 var paazlID = $(selectors.paazlID).data(attributes.paazlID);
@@ -41,10 +42,11 @@ function updatePaazlWidget(methodName, e) {
     var fieldValue = $el.val();
 
     // Stop if there is no value
-    if (fieldValue.length === 0) {
+    if (fieldValue.length === 0 || oldValue === fieldValue) {
         return;
     }
 
+    oldValue = fieldValue;
     $.spinner().start();
     observer = new MutationObserver(widgetUpdatedCallback);
     observer.observe(document.getElementById('paazl-checkout'), {
@@ -121,6 +123,10 @@ function assignListeners(scope) {
         });
 
         scope.on(events.keydown, selectors.address.postalCode, function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 9) { // When tab key is pressed.
+                return;
+            }
             clearTimeout(typingTimer);
         });
     } else {
