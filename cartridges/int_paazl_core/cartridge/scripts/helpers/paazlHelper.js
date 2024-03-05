@@ -478,6 +478,40 @@ function convertPaazlMetadataToObject(metadata) {
     return result;
 }
 
+/**
+ * Get search object used during the widget initialisation.
+ * @param {dw.order.OrderAddress} shippingAddress Curent shipping address.
+ * @return {Object} Object containing address and geolocation.
+ */
+function getSearchInformation(address) {
+    var search = {
+        address: null,
+        circle: null
+    }
+
+    if (address) {
+        search.address = {
+            street: address.address1,
+            postalCode: address.postalCode,
+            houseNumberExtension: address.address2,
+            city: address.city,
+            country: address.countryCode.value
+        };
+    }
+
+    if (request.geolocation && request.geolocation.available) {
+        search.circle = {
+            radius: Site.current.getCustomPreferenceValue('paazlSearchRadiusValue'),
+            center: {
+                latitude: request.geolocation.latitude,
+                longitude: request.geolocation.longitude
+            }
+        };
+    }
+
+    return search;
+}
+
 module.exports = {
     getShippingMethodID: getShippingMethodID,
     updateTokenInBasket: updateTokenInBasket,
@@ -491,5 +525,6 @@ module.exports = {
     setProductDimensions: setProductDimensions,
     setProductShipmentParameters: setProductShipmentParameters,
     getPaazlStartMatrixPromotion: getPaazlStartMatrixPromotion,
-    convertPaazlMetadataToObject: convertPaazlMetadataToObject
+    convertPaazlMetadataToObject: convertPaazlMetadataToObject,
+    getSearchInformation: getSearchInformation
 };

@@ -239,6 +239,13 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlSearchRadiusValue">
+                <display-name xml:lang="x-default">Search Radius Value</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>5000</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlWebshopID">
                 <display-name xml:lang="x-default">Paazl Webshop ID</display-name>
                 <type>string</type>
@@ -305,11 +312,29 @@
                 </value-definitions>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetEndpoint">
-                <display-name xml:lang="x-default">Paazl Widget Endpoint </display-name>
-                <type>string</type>
+                <display-name xml:lang="x-default">Widget URL Endpoint</display-name>
+                <description xml:lang="x-default">Select between the option which URL version should be used to load the widget. Whereas "latest" will receive more frequent updates as opposed to "stable".</description>
+                <type>enum-of-string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
-                <min-length>0</min-length>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Test - Latest</display>
+                        <value>https://widget-acc.paazl.com/v1/latest/checkout.js</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Test - Stable</display>
+                        <value>https://widget-acc.paazl.com/v1/stable/checkout.js</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Production - Latest</display>
+                        <value>https://widget.paazl.com/v1/latest/checkout.js</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Production - Stable</display>
+                        <value>https://widget.paazl.com/v1/stable/checkout.js</value>
+                    </value-definition>
+                </value-definitions>
             </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetInitialPickupLocationsLimit">
                 <display-name xml:lang="x-default"># Pickup Tab Shipping Options</display-name>
@@ -623,6 +648,7 @@
                 <attribute attribute-id="paazlProductWeightAttribute"/>
                 <attribute attribute-id="paazlProductWidthAttribute"/>
                 <attribute attribute-id="paazlWidgetRefreshZipStopTyping"/>
+                <attribute attribute-id="paazlSearchRadiusValue"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

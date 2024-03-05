@@ -33,7 +33,7 @@ server.append(
         if (paazlStatus.applicable) {
             var currentPaazlShippingMethodID = paazlHelper.getShippingMethodID();
             var InitPaazlWidget = require('*/cartridge/scripts/init/initPaazlWidget');
-            var paazlWidgetEndpoint = Site.current.getCustomPreferenceValue('paazlWidgetEndpoint');
+            var paazlWidgetEndpoint = Site.current.getCustomPreferenceValue('paazlWidgetEndpoint').value;
             paazlHelper.updateTokenInBasket(currentBasket);
             var paazlWidgetCustomizedStyle;
             // If 'paazlWidgetPredefinedStyle' is set on CUSTOMIZED, fetch the customized style from the 'paazlWidgetCustomizedStyle' site preferences

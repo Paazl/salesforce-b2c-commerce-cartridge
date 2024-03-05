@@ -60,6 +60,30 @@ function updatePaazlWidget(methodName, e) {
 }
 
 /**
+ * @public setWidgetSearch
+ *
+ * Update search object.
+ */
+function setWidgetSearch() {
+    if (typeof PaazlCheckout.setSearch !== 'function') return;
+
+    if ('search' in paazlWidgetInit) {
+        var search = paazlWidgetInit.search;
+
+        var address = {
+            street: $(selectors.address.street).val(),
+            postalCode: $(selectors.address.postalCode).val(),
+            houseNumberExtension: $(selectors.address.houseNumber).val(),
+            city: $(selectors.address.city).val(),
+            country: $(selectors.address.country).val()
+        };
+
+        search.address = address;
+        PaazlCheckout.setSearch(search);
+    }
+}
+
+/**
  * @public onUpdateShippingMethods
  *
  * @param {Event} evt - an Ajax Success Event
@@ -119,6 +143,7 @@ function assignListeners(scope) {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(function() {
                 updatePaazlWidget('setConsigneePostalCode', e);
+                setWidgetSearch();
             }, doneTypingInterval);
         });
 
@@ -132,6 +157,7 @@ function assignListeners(scope) {
     } else {
         scope.on(events.change, selectors.address.postalCode, function (e) {
             updatePaazlWidget('setConsigneePostalCode', e);
+            setWidgetSearch();
         });
     }
 
