@@ -159,7 +159,7 @@ function initPaazlWidget() {
         pickupLocationsLimit: paazlWidgetPickupLocationsLimit,
         initialPickupLocations: paazlWidgetInitialPickupLocationsLimit,
 
-        search: paazlHelper.getSearchInformation(shippingAddress),
+        search: paazlHelper.getSearchInformation(shippingAddress, countryCode),
 
         logLevel: logLevel ? logLevel.value : 'NONE'
     };

@@ -481,9 +481,10 @@ function convertPaazlMetadataToObject(metadata) {
 /**
  * Get search object used during the widget initialisation.
  * @param {dw.order.OrderAddress} shippingAddress Curent shipping address.
+ * @param {string} countryCode Consignee country code.
  * @return {Object} Object containing address and geolocation.
  */
-function getSearchInformation(address) {
+function getSearchInformation(address, countryCode) {
     var search = {
         address: null,
         circle: null
@@ -497,9 +498,14 @@ function getSearchInformation(address) {
             city: address.city,
             country: address.countryCode.value
         };
+    } else {
+        search.address = {
+            country: countryCode
+        }
     }
 
-    if (request.geolocation && request.geolocation.available) {
+    var isGeolocEnabled = Site.current.getCustomPreferenceValue('paazlIsGeolocationEnabled') || false;
+    if (isGeolocEnabled && request.geolocation && request.geolocation.available) {
         search.circle = {
             radius: Site.current.getCustomPreferenceValue('paazlSearchRadiusValue'),
             center: {

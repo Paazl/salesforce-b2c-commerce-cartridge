@@ -185,6 +185,14 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlIsGeolocationEnabled">
+                <display-name xml:lang="x-default">Enable Geolocation</display-name>
+                <description xml:lang="x-default">If enabled, provides the customer geolocation to the widget during initialisation.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlNominatedDateEnabled">
                 <display-name xml:lang="x-default">Enable Nominated Date</display-name>
                 <description xml:lang="x-default">If true, shipping options will be displayed grouped by date. If false, the list will be displayed in ascending order of price, i.e. the least expensive option will be at the top</description>
@@ -649,6 +657,7 @@
                 <attribute attribute-id="paazlProductWidthAttribute"/>
                 <attribute attribute-id="paazlWidgetRefreshZipStopTyping"/>
                 <attribute attribute-id="paazlSearchRadiusValue"/>
+                <attribute attribute-id="paazlIsGeolocationEnabled"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
