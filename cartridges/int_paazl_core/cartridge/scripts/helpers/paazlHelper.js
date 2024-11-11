@@ -54,14 +54,46 @@ function getPaazlFallBackOption(countryCode, currencyCode) {
 
 
 /**
+ * Returns true if Paazl token has expired, otherwise returns false
+ * @param {dw.order.Basket} basket 
+ * @returns {Boolean}
+ */
+function isTokenExpired(basket) {
+    var currentDate = Site.current.calendar.time;
+    var renewedDate = basket.custom.paazlTokenRenewedTime;
+
+    if (!renewedDate) {
+        Transaction.wrap(function () {
+            basket.custom.paazlTokenRenewedTime = currentDate;
+        });
+        Logger.info('Token is being create for the first time - {0}', currentDate);
+        return true;
+    }
+
+    //Token expires in a month, we deduct here 5 days from that just to be on the safe side
+    var creationNextMonth = new Date (renewedDate.setMonth(renewedDate.getMonth() + 1, renewedDate.getDate() - 5));
+    if (currentDate > creationNextMonth) {
+        Transaction.wrap(function () {
+            basket.custom.paazlTokenRenewedTime = currentDate;
+        });
+        Logger.info('Token is being renewed - {0}', currentDate);
+        return true;
+    }
+
+    Logger.info('Token is not expired - {0}', currentDate);
+    return false; 
+}
+
+/**
  * Save Paazl security tokken into the Basket custom attribute 'paazlAPIToken'.
  * @param {dw.order.Basket} basket - the current basket
  */
 function updateTokenInBasket(basket) {
-    if (!basket.custom.paazlAPIToken) {
+    var tokenExpired = isTokenExpired(basket);
+    if (!basket.custom.paazlAPIToken || tokenExpired) {
         // If not already done, get REST API token from Paazl and store it into the current basket
         try {
-            var getTokenService = require('*/cartridge/scripts/services/REST/getToken');
+            var getTokenService = require("*/cartridge/scripts/services/REST/getToken");
             var result = getTokenService.getToken({ basket: basket });
             if (result.token) {
                 Transaction.wrap(function () {
@@ -69,7 +101,10 @@ function updateTokenInBasket(basket) {
                 });
             }
         } catch (error) {
-            Logger.error('Error requesting token from Paazl. Error: {0}.', error);
+            Logger.error(
+                "Error requesting token from Paazl. Error: {0}.",
+                error
+            );
         }
     }
 }
@@ -532,5 +567,6 @@ module.exports = {
     setProductShipmentParameters: setProductShipmentParameters,
     getPaazlStartMatrixPromotion: getPaazlStartMatrixPromotion,
     convertPaazlMetadataToObject: convertPaazlMetadataToObject,
-    getSearchInformation: getSearchInformation
+    getSearchInformation: getSearchInformation,
+    isTokenExpired: isTokenExpired
 };

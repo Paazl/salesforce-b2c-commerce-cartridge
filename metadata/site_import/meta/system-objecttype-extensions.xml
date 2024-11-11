@@ -20,12 +20,19 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlTokenRenewedTime">
+                <display-name xml:lang="x-default">Token Renewed Time</display-name>
+                <type>datetime</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Paazl">
                 <display-name xml:lang="x-default">Paazl</display-name>
                 <attribute attribute-id="paazlAPIToken"/>
                 <attribute attribute-id="paazlStartMatrix"/>
+                <attribute attribute-id="paazlTokenRenewedTime"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
