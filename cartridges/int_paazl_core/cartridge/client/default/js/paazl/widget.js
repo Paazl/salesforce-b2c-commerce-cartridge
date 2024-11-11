@@ -70,14 +70,25 @@ function setWidgetSearch() {
     if ('search' in paazlWidgetInit) {
         var search = paazlWidgetInit.search;
 
+        var country = $(selectors.address.country).val();
+        if ('paazlWidgetInit' in window
+            && undefined !== (window.paazlWidgetInit)
+            && window.paazlWidgetInit !== null
+            && ((typeof country === 'string'
+            && country.length === 0)
+            || country === undefined)) {
+            country = window.paazlWidgetInit.consigneeCountryCode;
+        }
+
         var address = {
             street: $(selectors.address.street).val(),
             postalCode: $(selectors.address.postalCode).val(),
             houseNumberExtension: $(selectors.address.houseNumber).val(),
             city: $(selectors.address.city).val(),
-            country: $(selectors.address.country).val()
+            country: country
         };
 
+        delete search.circle;
         search.address = address;
         PaazlCheckout.setSearch(search);
     }
@@ -165,6 +176,16 @@ function assignListeners(scope) {
     $(document).on(events.click, selectors.paazlButtons, function preventSubmit(e) {
         e.preventDefault();
     });
+
+    if ($(selectors.addressSelector) && $(selectors.addressSelector).length) {
+        $(selectors.addressSelector).on('change', function name(e) {
+            var option = $(e.target).find(':selected');
+            PaazlCheckout['setConsigneeCountryCode'](option.data('country-code'));
+            setTimeout(function() {
+                PaazlCheckout['setConsigneePostalCode'](option.data('postal-code'));
+            }, 250);
+        })
+    }
 }
 
 

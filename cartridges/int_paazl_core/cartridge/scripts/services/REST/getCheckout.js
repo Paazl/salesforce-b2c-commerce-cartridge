@@ -94,11 +94,11 @@ function getCheckoutService() {
                                     firstName: '', // Needs to be added with an empty string for the FE
                                     lastName: pickupLocation.name || '',
                                     address1: pickupLocation.address.street || '',
-                                    address2: pickupLocation.address.streetNumber || '',
+                                    address2: (pickupLocation.address.streetNumber || '') + (pickupLocation.address.streetNumberSuffix ? ' ' + pickupLocation.address.streetNumberSuffix : ''),
                                     city: pickupLocation.address.city || '',
                                     postalCode: pickupLocation.address.postalCode || '',
                                     countryCode: pickupLocation.address.country || '',
-                                    stateCode: pickupLocation.address.state || ''
+                                    stateCode: pickupLocation.address.state || pickupLocation.address.province || ''
                                 };
                             }
                             selectedOptionResponse.pickupLocation.address = shippingAddress;

@@ -6,6 +6,7 @@ var attributes = {
 
 var selectors = {
     body: 'body',
+    addressSelector: '.addressSelector',
     endlines: 'end-lines',
     hide: 'hide',
     paazlButtons: '#paazl-checkout button:not([type="submit"])',
