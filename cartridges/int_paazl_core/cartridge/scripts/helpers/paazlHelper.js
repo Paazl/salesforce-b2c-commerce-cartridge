@@ -52,11 +52,10 @@ function getPaazlFallBackOption(countryCode, currencyCode) {
     return false;
 }
 
-
 /**
  * Returns true if Paazl token has expired, otherwise returns false
- * @param {dw.order.Basket} basket 
- * @returns {Boolean}
+ * @param {dw.order.Basket} basket - the current basket
+ * @returns {boolean} if the Paazl token has expired
  */
 function isTokenExpired(basket) {
     var currentDate = Site.current.calendar.time;
@@ -64,16 +63,18 @@ function isTokenExpired(basket) {
 
     if (!renewedDate) {
         Transaction.wrap(function () {
+            // eslint-disable-next-line no-param-reassign
             basket.custom.paazlTokenRenewedTime = currentDate;
         });
         Logger.info('Token is being create for the first time - {0}', currentDate);
         return true;
     }
 
-    //Token expires in a month, we deduct here 5 days from that just to be on the safe side
-    var creationNextMonth = new Date (renewedDate.setMonth(renewedDate.getMonth() + 1, renewedDate.getDate() - 5));
+    // Token expires in a month, we deduct here 5 days from that just to be on the safe side
+    var creationNextMonth = new Date(renewedDate.setMonth(renewedDate.getMonth() + 1, renewedDate.getDate() - 5));
     if (currentDate > creationNextMonth) {
         Transaction.wrap(function () {
+            // eslint-disable-next-line no-param-reassign
             basket.custom.paazlTokenRenewedTime = currentDate;
         });
         Logger.info('Token is being renewed - {0}', currentDate);
@@ -81,7 +82,7 @@ function isTokenExpired(basket) {
     }
 
     Logger.info('Token is not expired - {0}', currentDate);
-    return false; 
+    return false;
 }
 
 /**
@@ -93,7 +94,7 @@ function updateTokenInBasket(basket) {
     if (!basket.custom.paazlAPIToken || tokenExpired) {
         // If not already done, get REST API token from Paazl and store it into the current basket
         try {
-            var getTokenService = require("*/cartridge/scripts/services/REST/getToken");
+            var getTokenService = require('*/cartridge/scripts/services/REST/getToken');
             var result = getTokenService.getToken({ basket: basket });
             if (result.token) {
                 Transaction.wrap(function () {
@@ -102,13 +103,12 @@ function updateTokenInBasket(basket) {
             }
         } catch (error) {
             Logger.error(
-                "Error requesting token from Paazl. Error: {0}.",
+                'Error requesting token from Paazl. Error: {0}.',
                 error
             );
         }
     }
 }
-
 
 /**
  * Request Paazl selected shipping option and save it into the current dw.order.Shipment custom attribute 'paazlDeliveryInfo'.
@@ -515,7 +515,7 @@ function convertPaazlMetadataToObject(metadata) {
 
 /**
  * Get search object used during the widget initialisation.
- * @param {dw.order.OrderAddress} shippingAddress Curent shipping address.
+ * @param {dw.order.OrderAddress} address Curent shipping address.
  * @param {string} countryCode Consignee country code.
  * @return {Object} Object containing address and geolocation.
  */
@@ -523,7 +523,7 @@ function getSearchInformation(address, countryCode) {
     var search = {
         address: null,
         circle: null
-    }
+    };
 
     if (address) {
         search.address = {
@@ -536,7 +536,7 @@ function getSearchInformation(address, countryCode) {
     } else {
         search.address = {
             country: countryCode
-        }
+        };
     }
 
     var isGeolocEnabled = Site.current.getCustomPreferenceValue('paazlIsGeolocationEnabled') || false;

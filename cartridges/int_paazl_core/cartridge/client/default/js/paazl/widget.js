@@ -152,7 +152,7 @@ function assignListeners(scope) {
 
         scope.on(events.keyup, selectors.address.postalCode, function (e) {
             clearTimeout(typingTimer);
-            typingTimer = setTimeout(function() {
+            typingTimer = setTimeout(function () {
                 updatePaazlWidget('setConsigneePostalCode', e);
                 setWidgetSearch();
             }, doneTypingInterval);
@@ -180,11 +180,11 @@ function assignListeners(scope) {
     if ($(selectors.addressSelector) && $(selectors.addressSelector).length) {
         $(selectors.addressSelector).on('change', function name(e) {
             var option = $(e.target).find(':selected');
-            PaazlCheckout['setConsigneeCountryCode'](option.data('country-code'));
-            setTimeout(function() {
-                PaazlCheckout['setConsigneePostalCode'](option.data('postal-code'));
+            PaazlCheckout.setConsigneeCountryCode(option.data('country-code'));
+            setTimeout(function () {
+                PaazlCheckout.setConsigneePostalCode(option.data('postal-code'));
             }, 250);
-        })
+        });
     }
 }
 

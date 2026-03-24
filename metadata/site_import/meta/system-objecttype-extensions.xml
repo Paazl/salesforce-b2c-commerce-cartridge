@@ -367,6 +367,14 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>false</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="paazlWidgetNumberOfDays">
+                <display-name xml:lang="x-default">Number of days</display-name>
+                <description xml:lang="x-default">The length of time in days after startDate for which shipping options are supplied.</description>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>7</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="paazlWidgetPickupLocationsLimit">
                 <display-name xml:lang="x-default">Max # Locations shown on map</display-name>
                 <description xml:lang="x-default">Limits the maximum number of pickup locations displayed on the widget's pickup location map.</description>
@@ -635,6 +643,7 @@
                 <attribute attribute-id="paazlWidgetEndpoint"/>
                 <attribute attribute-id="paazlWidgetAvailableTabs"/>
                 <attribute attribute-id="paazlWidgetDefaultTabs"/>
+                <attribute attribute-id="paazlWidgetNumberOfDays"/>
                 <attribute attribute-id="paazlWidgetShippingOptionsLimit"/>
                 <attribute attribute-id="paazlWidgetInitialPickupLocationsLimit"/>
                 <attribute attribute-id="paazlWidgetPickupLocationsPageLimit"/>

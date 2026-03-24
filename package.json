@@ -1,6 +1,6 @@
 {
   "name": "int_paazl_core",
-  "version": "24.4.0",
+  "version": "26.1.0",
   "description": "Paazl plugin for Storefront Reference Architecture",
   "scripts": {
     "test": "sgmf-scripts --test test/unit/**/*.js",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/Paazl/salesforce-b2c-commerce-cartridge.git"
   },
-  "author": "Clockwork <info@clockwork.nl>",
+  "author": "Wolfpack <info@wolfpack-agency.com>",
   "license": "MIT",
   "homepage": "https://github.com/Paazl/salesforce-b2c-commerce-cartridge",
   "devDependencies": {

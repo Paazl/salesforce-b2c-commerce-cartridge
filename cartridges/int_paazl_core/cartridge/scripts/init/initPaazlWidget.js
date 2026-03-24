@@ -44,6 +44,7 @@ function getShipmentParameters(basket) {
  */
 function initPaazlWidget() {
     var currentBasket = BasketMgr.getCurrentBasket();
+    var site = Site.current;
     var shippingAddress = currentBasket.defaultShipment.shippingAddress;
     var billingAddress = currentBasket.billingAddress;
     var token = (currentBasket && currentBasket.custom.paazlAPIToken) || '';
@@ -79,7 +80,7 @@ function initPaazlWidget() {
     }
 
     var availableTabs = [];
-    var paazlWidgetAvailableTabs = Site.current.getCustomPreferenceValue('paazlWidgetAvailableTabs');
+    var paazlWidgetAvailableTabs = site.getCustomPreferenceValue('paazlWidgetAvailableTabs');
     paazlWidgetAvailableTabs.forEach(function (availableTab) {
         availableTabs.push(availableTab.value);
     });
@@ -87,39 +88,35 @@ function initPaazlWidget() {
         availableTabs = ['DELIVERY', 'PICKUP'];
     }
 
-    var paazlWidgetDefaultTabs = Site.current.getCustomPreferenceValue('paazlWidgetDefaultTabs');
-
-    var paazlWidgetShippingOptionsLimit = Site.current.getCustomPreferenceValue('paazlWidgetShippingOptionsLimit');
-
-    var paazlWidgetPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsLimit');
-
-    var paazlWidgetPickupLocationsPageLimit = Site.current.getCustomPreferenceValue('paazlWidgetPickupLocationsPageLimit');
-
-    var paazlWidgetInitialPickupLocationsLimit = Site.current.getCustomPreferenceValue('paazlWidgetInitialPickupLocationsLimit');
-
-    var nominatedDateEnabled = Site.current.getCustomPreferenceValue('paazlWidgetNominatedDateEnabled') || false;
+    var paazlWidgetDefaultTabs = site.getCustomPreferenceValue('paazlWidgetDefaultTabs');
+    var paazlWidgetNumberOfDays = site.getCustomPreferenceValue('paazlWidgetNumberOfDays');
+    var paazlWidgetShippingOptionsLimit = site.getCustomPreferenceValue('paazlWidgetShippingOptionsLimit');
+    var paazlWidgetPickupLocationsLimit = site.getCustomPreferenceValue('paazlWidgetPickupLocationsLimit');
+    var paazlWidgetPickupLocationsPageLimit = site.getCustomPreferenceValue('paazlWidgetPickupLocationsPageLimit');
+    var paazlWidgetInitialPickupLocationsLimit = site.getCustomPreferenceValue('paazlWidgetInitialPickupLocationsLimit');
+    var nominatedDateEnabled = site.getCustomPreferenceValue('paazlWidgetNominatedDateEnabled') || false;
 
     var style;
-    var selectedStyle = Site.current.getCustomPreferenceValue('paazlWidgetPredefinedStyle');
+    var selectedStyle = site.getCustomPreferenceValue('paazlWidgetPredefinedStyle');
     if (selectedStyle && selectedStyle.displayValue && selectedStyle.displayValue !== 'CUSTOMIZED') {
         style = selectedStyle.displayValue;
     }
 
-    var logLevel = Site.current.getCustomPreferenceValue('paazlWidgetLogLevel');
+    var logLevel = site.getCustomPreferenceValue('paazlWidgetLogLevel');
 
     // sortingModel for each tab
     var sortingModel = [];
     for (var i = 0; i < availableTabs.length; i++) {
         var tab = availableTabs[i];
-        var orderBy = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy' + tab);
-        var sortOrder = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder' + tab);
+        var orderBy = site.getCustomPreferenceValue('paazlWidgetSortingModelOrderBy' + tab);
+        var sortOrder = site.getCustomPreferenceValue('paazlWidgetSortingModelSortOrder' + tab);
         var sortOption = {
             tab: tab,
             orderBy: orderBy ? orderBy.value : tab === 'DELIVERY' ? 'PRICE' : 'DISTANCE', // eslint-disable-line no-nested-ternary
             sortOrder: sortOrder ? sortOrder.value : 'ASC'
         };
         if (sortOption.orderBy === 'CARRIER') {
-            sortOption.distributor = Site.current.getCustomPreferenceValue('paazlWidgetSortingModelDistributor' + tab);
+            sortOption.distributor = site.getCustomPreferenceValue('paazlWidgetSortingModelDistributor' + tab);
         }
         sortingModel.push(sortOption);
     }
@@ -131,7 +128,7 @@ function initPaazlWidget() {
     var paazlWidget = {
 
         mountElementId: 'paazl-checkout',
-        apiKey: Site.current.getCustomPreferenceValue('paazlAPIKey') || '',
+        apiKey: site.getCustomPreferenceValue('paazlAPIKey') || '',
         token: token,
         loadPaazlBasedData: true,
         loadCarrierBasedData: true,
@@ -163,6 +160,10 @@ function initPaazlWidget() {
 
         logLevel: logLevel ? logLevel.value : 'NONE'
     };
+
+    if (paazlWidgetNumberOfDays) {
+        paazlWidget.deliveryDateOptions = { numberOfDays: paazlWidgetNumberOfDays };
+    }
 
     return paazlWidget;
 }
